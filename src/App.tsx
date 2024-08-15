@@ -12,7 +12,8 @@ const App: React.FC = () => {
   return (
     <div className="container">
       <header>
-        <h1>Client Data Viewer</h1>
+        <h1>Gilded Sentinel</h1>
+        <h2>Client Monitoring Platform</h2>
       </header>
       <main>
         <Routes>
