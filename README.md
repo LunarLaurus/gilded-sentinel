@@ -1,46 +1,102 @@
-# Getting Started with Create React App
+# Gilded Sentinel - Client Monitoring Platform
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Gilded Sentinel is a powerful and intuitive client data monitoring platform built using React. The UI integrates with a Spring/Java backend and a C-based data collection client, providing detailed system information and monitoring capabilities. This platform supports both standard systems and those with Integrated Lights-Out (ILO) capabilities, with future plans for DRAC and other remote management systems.
 
-## Available Scripts
+## Table of Contents
+- [Gilded Sentinel - Client Monitoring Platform](#gilded-sentinel---client-monitoring-platform)
+  - [Table of Contents](#table-of-contents)
+  - [Features](#features)
+  - [Project Structure](#project-structure)
+  - [Installation](#installation)
+  - [Running the Application](#running-the-application)
+  - [Usage](#usage)
+  - [Configuration](#configuration)
+  - [Technologies Used](#technologies-used)
 
-In the project directory, you can run:
+## Features
+- **System Monitoring:** Real-time CPU, memory, and GPU data collection and display.
+- **Temperature Graphs:** Visualize CPU temperature data over time.
+- **ILO Support:** Monitor and manage ILO-enabled systems, with options for configuration and overrides.
+- **Responsive UI:** Designed for use across various devices and screen sizes.
+- **Future Expansion:** Planned support for DRAC and other remote management technologies.
 
-### `npm start`
+## Project Structure
+```
+gilded-sentinel/
+├── node_modules/
+├── public/
+│ ├── favicon.ico
+│ ├── apple-touch-icon.png
+│ ├── favicon-16x16.png
+│ ├── favicon-32x32.png
+│ ├── android-chrome-192x192.png
+│ ├── android-chrome-512x512.png
+│ ├── index.html
+│ └── site.webmanifest
+├── src/
+│ ├── components/
+│ │ └── subcomponent/
+│ ├── hooks/
+│ ├── styles/
+│ ├── types/
+│ ├── utils/
+│ ├── App.tsx
+│ └── index.tsx
+├── .gitignore
+├── package.json
+├── tsconfig.json
+└── README.md
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Installation
+1. **Clone the Repository:**
+    ```bash
+    git clone https://github.com/laurus-industries/gilded-sentinel.git
+    cd gilded-sentinel
+    ```
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+2. **Install Dependencies:**
+    Ensure Node.js and npm are installed, then run:
+    ```bash
+    npm install
+    ```
 
-### `npm test`
+## Running the Application
+- **Development Server**
+    To start the app in development mode with hot-reloading:
+    ```bash
+    npm start
+    ```
+    Visit `http://localhost:3000` in your browser to view it.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- **Build for Production**
+    To create a production build of the app:
+    ```bash
+    npm run build
+    ```
+    This command generates a build directory containing the optimized application ready for deployment.
 
-### `npm run build`
+## Usage
+- **Monitoring Systems**
+    - **Home Page:** Lists all connected systems, including real-time data on CPU, memory, and GPU usage.
+    - **System Details:** Click on a system to view detailed information, including CPU temperatures over time, clock speeds, and memory stats.
+    - **ILO Support:** For systems with ILO, you can monitor and configure the ILO settings directly through the app.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- **Routing**
+    - **Home Page (/):** Displays the list of all systems.
+    - **System Detail Page (/client/:id):** Shows detailed stats for a specific system.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Configuration
+The API endpoint for data collection is hardcoded within `App.tsx`. Modify the `API_URL` variable directly within this file if needed:
+```typescript
+export const API_URL = 'http://localhost:32550'; // Update this URL as necessary
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Technologies Used
+React: The core framework for building the user interface.  
+TypeScript: Enforced type safety for more maintainable and reliable code.  
+React Router: Enables routing within the application.  
+Axios: Simplified HTTP client for data fetching.  
+Chart.js & React-Chartjs-2: Used to visualize CPU temperatures and other metrics.  
+Spring/Java Backend: Manages data aggregation and API endpoints.  
+C-based Data Collection Client: Collects client system data using LibreHardwareMonitor.
