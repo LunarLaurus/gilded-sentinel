@@ -1,0 +1,48 @@
+// src/components/ClientDetail.tsx
+import React, { useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import '../styles/ClientDetail.css';
+import useEndpointWithArgument from '../hooks/useEndpointWithArgument';
+import { Client } from '../types/ClientInterfaces';
+import TabButtons from './TabButtons';
+import SystemTab from './tabs/ClientDetail/SystemTab';
+import TemperatureTab from './tabs/ClientDetail/TemperatureTab';
+import IloTab from './tabs/ClientDetail/IloTab';
+
+const ClientDetail: React.FC = () => {
+    const { id } = useParams<{ id: string }>();
+    const { data: client, loading, error } = useEndpointWithArgument<Client>('api/clients', id);
+    const navigate = useNavigate();
+    const [selectedTab, setSelectedTab] = useState('System'); // Default to 'System' if 'System' is always visible
+
+    if (loading) return <div className="text-center">Loading...</div>;
+    if (error) return <div className="text-center">Error: {error}</div>;
+    if (!client) return <div className="text-center">Client not found</div>;
+
+    // Determine which tabs to show
+    const iloTabEnabled = !!client.ilo;
+    const TAB_OPTIONS = iloTabEnabled ? ['System', 'Temperature', 'ILO'] : ['System', 'Temperature'];
+
+    const renderTabContent = () => {
+        switch (selectedTab) {
+            case 'System':
+                return <SystemTab client={client} />;
+            case 'Temperature':
+                return <TemperatureTab client={client} />;
+            case 'ILO':
+                return iloTabEnabled ? <IloTab client={client} /> : <div>Select a tab to view content</div>;
+            default:
+                return <div>Select a tab to view content</div>;
+        }
+    };
+
+    return (
+        <div className="details-container">
+            <button onClick={() => navigate('/')} className="back-button">Back to List</button>
+            <TabButtons selectedTab={selectedTab} onTabSelect={setSelectedTab} tabs={TAB_OPTIONS} />
+            {renderTabContent()}
+        </div>
+    );
+};
+
+export default ClientDetail;

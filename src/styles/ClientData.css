@@ -1,0 +1,77 @@
+/* ClientData Component Styles */
+.card-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    justify-content: center;
+    padding: 20px;
+}
+
+.client-card {
+    background: #e0f7fa; /* Light cyan background */
+    border: 1px solid #4dd0e1; /* Cyan border */
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    max-width: 100%;
+    box-sizing: border-box;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-decoration: none; /* Ensure no underline */
+}
+
+.client-card-ilo {
+    background: #e0fae1; /* Light cyan background */
+    border: 1px solid #4de16d; /* Cyan border */
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    max-width: 100%;
+    box-sizing: border-box;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-decoration: none; /* Ensure no underline */
+}
+
+.client-card:hover {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transform: scale(1.001); /* Slightly scale up on hover */
+}
+.client-card-ilo:hover {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transform: scale(1.005); /* Slightly scale up on hover */
+}
+
+.client-card h2 {
+    margin-top: 0;
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+.client-card-ilo h2 {
+    margin-top: 0;
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+.client-card h3 {
+    margin-top: 0;
+    font-size: 1.35rem;
+    text-align: center;
+}
+
+.client-card-ilo h3 {
+    margin-top: 0;
+    font-size: 1.35rem;
+    text-align: center;
+}
+
+.client-card p {
+    margin: 5px 0;
+    text-align: center;
+}
+
+.client-card-ilo p {
+    margin: 5px 0;
+    text-align: center;
+}

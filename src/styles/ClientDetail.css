@@ -1,0 +1,47 @@
+/* ClientDetail Component Styles */
+
+.details-card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    max-width: 100%;
+    box-sizing: border-box;
+    transition: none; /* Disable transitions if they are causing issues */
+    margin: 0 auto; /* Center the card if needed */
+    position: relative; /* Ensure card does not shift */
+}
+
+/* Add consistent padding and margin for overall layout */
+.details-container {
+    padding: 20px;
+    margin: 0 auto;
+    max-width: 1200px; /* Adjust based on your layout needs */
+}
+
+/* Ensure text is readable and well-spaced */
+h1, h2, h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+ul {
+    padding-left: 20px;
+    margin: 0;
+}
+
+/* Back button styles */
+.back-button {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.back-button:hover {
+    background-color: #0056b3;
+}
