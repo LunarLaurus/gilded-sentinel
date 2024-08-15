@@ -98,5 +98,4 @@ TypeScript: Enforced type safety for more maintainable and reliable code.
 React Router: Enables routing within the application.  
 Axios: Simplified HTTP client for data fetching.  
 Chart.js & React-Chartjs-2: Used to visualize CPU temperatures and other metrics.  
-Spring/Java Backend: Manages data aggregation and API endpoints.  
-C-based Data Collection Client: Collects client system data using LibreHardwareMonitor.
+Spring/Java Backend: Manages data aggregation and API endpoints.  (C#-based Data Collection Client)(https://github.com/LunarLaurus/gilded-sentinel-client): Collects system data using LibreHardwareMonitor.
