@@ -1,28 +1,41 @@
 /* ClientData Component Styles */
 .card-container {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(2, 1fr); /* Ensure two columns */
     gap: 20px;
     justify-content: center;
     padding: 20px;
 }
 
-.client-card {
-    background: #e0f7fa; /* Light cyan background */
-    border: 1px solid #4dd0e1; /* Cyan border */
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    max-width: 100%;
-    box-sizing: border-box;
-    cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    text-decoration: none; /* Ensure no underline */
+/* Consider large icon mode for tablets in future*/
+
+@media (max-width: 600px) {
+    .card-container {
+        grid-template-columns: 1fr; /* Switch to single column on smaller screens */
+    }
+    .ilo-icon {
+        width: 16px;
+        height: 16px;
+    }
 }
 
-.client-card-ilo {
-    background: #e0fae1; /* Light cyan background */
-    border: 1px solid #4de16d; /* Cyan border */
+@media (min-width: 601px) and (max-width: 1200px) {
+    .ilo-icon {
+        width: 32px;
+        height: 32px;
+    }
+}
+
+@media (min-width: 1201px) {
+    .ilo-icon {
+        width: 192px;
+        height: 192px;
+    }
+}
+
+.client-card {
+    background: #fffbe0;
+    border: 1px solid #e2c75a;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding: 20px;
@@ -31,47 +44,39 @@
     cursor: pointer;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     text-decoration: none; /* Ensure no underline */
+    position: relative; /* Set position relative for absolute positioning of icon */
 }
 
 .client-card:hover {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     transform: scale(1.001); /* Slightly scale up on hover */
 }
-.client-card-ilo:hover {
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    transform: scale(1.005); /* Slightly scale up on hover */
-}
+
 
 .client-card h2 {
     margin-top: 0;
-    font-size: 1.5rem;
+    font-size: 32px;
     text-align: center;
-}
-
-.client-card-ilo h2 {
-    margin-top: 0;
-    font-size: 1.5rem;
-    text-align: center;
+    color: #b08900; /* Deep gold text */
 }
 
 .client-card h3 {
     margin-top: 0;
     font-size: 1.35rem;
     text-align: center;
-}
-
-.client-card-ilo h3 {
-    margin-top: 0;
-    font-size: 1.35rem;
-    text-align: center;
+    color: #b08900; /* Deep gold text */
 }
 
 .client-card p {
     margin: 5px 0;
     text-align: center;
+    color: #5f4b00; /* Darker gold text */
 }
 
-.client-card-ilo p {
-    margin: 5px 0;
-    text-align: center;
+.ilo-icon {
+    position: absolute; /* Position icon absolutely */
+    top: 10px; /* Distance from top */
+    left: 10px; /* Distance from right */
+    width: 32px; /* Set appropriate width */
+    height: 32px; /* Set appropriate height */
 }

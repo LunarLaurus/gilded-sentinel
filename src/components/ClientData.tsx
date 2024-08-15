@@ -44,19 +44,26 @@ const ClientData: React.FC = () => {
                 const hottestCoreTemp = cpu?.coreMaxTemperature;
                 const cpuTempDescription = `Average Core Temp: ${averageCoreTemp}°C (Hottest: ${hottestCoreTemp}°C)`;
 
-                const cardClass = client.ilo ? 'client-card-ilo' : 'client-card';
-
                 return (
                     <div
                         key={key}
-                        className={cardClass}
+                        className={'client-card'}
                         onClick={() => handleTileClick(key)}
                     >
+
+                        {client.ilo && (
+                            <img 
+                                src="/icons/ilo/ilo-32x.png" 
+                                alt="ILO present"
+                                className="ilo-icon"
+                            />
+                        )}
+                        
                         <h2>{client.name}</h2>
                         <h3>{cpuDescription}</h3>
                         <p>
                             {cpuTempDescription}
-                        </p>
+                        </p>                        
                     </div>
                 );
             })}
