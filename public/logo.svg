@@ -1,0 +1,31 @@
+<svg width="300px" height="300px" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+	<!-- Background <rect width="100%" height="100%" fill="#f5f5f5" /> -->
+	
+	<!-- Shield Shape -->
+	<path d="M150,40 L220,110 Q240,140 220,190 L150,260 L80,190 Q60,140 80,110 Z" fill="url(#gradShield)" stroke="#FFD700" stroke-width="8" />
+	<!-- Ornamental Border -->
+	<path d="M150,45 L215,115 Q235,135 215,175 L150,235 L85,175 Q65,135 85,115 Z" fill="none" stroke="#DAA520" stroke-width="4" />
+	<!-- Decorative Patterns -->
+	<path d="M150,45 Q155,70 150,95 Q145,70 150,45" fill="none" stroke="#FFD700" stroke-width="2" />
+	<path d="M80,110 Q70,125 80,140 Q90,125 80,110" fill="none" stroke="#FFD700" stroke-width="2" />
+	<path d="M220,110 Q230,125 220,140 Q210,125 220,110" fill="none" stroke="#FFD700" stroke-width="2" />
+	<!-- Central Emblem - Heraldic Crest -->
+	<g transform="translate(150, 180)">
+		<!-- Base Shield -->
+		<path d="M0,0 L30,-25 Q35,-10 30,10 L0,35 L-30,10 Q-35,-10 -30,-25 Z" fill="#FFD700" stroke="#B8860B" stroke-width="4" />
+	</g>
+	<!-- Additional Details -->
+	<circle cx="150" cy="150" r="10" fill="#FFEC8B" stroke="#FFD700" stroke-width="2" />
+	<circle cx="110" cy="180" r="8" fill="#FFEC8B" stroke="#FFD700" stroke-width="2" />
+	<circle cx="190" cy="180" r="8" fill="#FFEC8B" stroke="#FFD700" stroke-width="2" />
+	<!-- Decorative Lines -->
+	<line x1="150" y1="40" x2="150" y2="260" stroke="#FFD700" stroke-width="4" />
+	<line x1="110" y1="180" x2="190" y2="180" stroke="#FFD700" stroke-width="4" />
+	<!-- Gradient Definitions -->
+	<defs>
+		<linearGradient id="gradShield" x1="0%" y1="0%" x2="100%" y2="100%">
+			<stop offset="0%" style="stop-color:#DAA520; stop-opacity:1" />
+			<stop offset="100%" style="stop-color:#FFD700; stop-opacity:1" />
+		</linearGradient>
+	</defs>
+</svg>

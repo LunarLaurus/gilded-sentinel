@@ -1,17 +1,18 @@
-# Gilded Sentinel - Client Monitoring Platform
 
+<h1>
+<img src="public/logo.svg" alt="Gilded Sentinel Logo" width="80"/>Gilded Sentinel<img src="public/logo.svg" alt="Gilded Sentinel Logo" width="80"/>
+</h1>
 Gilded Sentinel is a powerful and intuitive client data monitoring platform built using React. The UI integrates with a Spring/Java backend and a C-based data collection client, providing detailed system information and monitoring capabilities. This platform supports both standard systems and those with Integrated Lights-Out (ILO) capabilities, with future plans for DRAC and other remote management systems.
 
 ## Table of Contents
-- [Gilded Sentinel - Client Monitoring Platform](#gilded-sentinel---client-monitoring-platform)
-  - [Table of Contents](#table-of-contents)
-  - [Features](#features)
-  - [Project Structure](#project-structure)
-  - [Installation](#installation)
-  - [Running the Application](#running-the-application)
-  - [Usage](#usage)
-  - [Configuration](#configuration)
-  - [Technologies Used](#technologies-used)
+- [Table of Contents](#table-of-contents)
+- [Features](#features)
+- [Project Structure](#project-structure)
+- [Installation](#installation)
+- [Running the Application](#running-the-application)
+- [Usage](#usage)
+- [Configuration](#configuration)
+- [Technologies Used](#technologies-used)
 
 ## Features
 - **System Monitoring:** Real-time CPU, memory, and GPU data collection and display.
