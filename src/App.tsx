@@ -1,20 +1,19 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
+import Header from './components/primary/Header'; // Import Header
+import Footer from './components/primary/Footer'; // Import Footer
 import ClientData from './components/ClientData';
 import ClientDetail from './components/ClientDetail';
-import './styles/App.css'; // Import App-specific styles
+import './styles/styles.css'; // Import App-specific styles
 
 // config.ts
-export const API_URL = 'http://192.168.0.10:32550'; // Default value
-//export const API_URL = 'http://localhost:32550'; // Default value
+//export const API_URL = 'http://192.168.0.10:32550'; // Default value
+export const API_URL = 'http://localhost:32550'; // Default value
 
 const App: React.FC = () => {
   return (
-    <div className="container">
-      <header>
-        <h1>Gilded Sentinel</h1>
-        <h2>Client Monitoring Platform</h2>
-      </header>
+    <div className="global.container">
+    <Header />
       <main>
         <Routes>
           Console.log("Injecting React Application routes.");
@@ -22,6 +21,7 @@ const App: React.FC = () => {
           <Route path="/client/:id" element={<ClientDetail />} />
         </Routes>
       </main>
+      <Footer />
     </div>
   );
 };

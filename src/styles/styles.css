@@ -1,9 +1,27 @@
 /* Global Styles */
+
+/* Font definitions */
+@font-face {
+    font-family: 'MetricHPE-Web-Regular';
+    src: url('/public/font/hpe/web/MetricHPE-Web-Regular.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'MetricHPE-Web-Bold';
+    src: url('/public/font/hpe/web/MetricHPE-Web-Bold.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'HPESimpleWeb-Bold';
+    src: url('/public/font/hpe/web/HPESimpleWeb-Bold.woff2') format('woff2'),
+        url('/public/font/hpe/web/HPESimpleWeb-Bold.woff') format('woff');
+}
+
 html,
 body {
     margin: 0;
     padding: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'MetricHPE-Web-Regular', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: #333;
     background-color: #f8f4e3;
 }
@@ -20,24 +38,26 @@ body {
 }
 
 header {
-    background: #fffbe0;
+    background-color: #fffbe0;
     border: 1px solid #e2c75a;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding: 40px;
-    max-width: 100%;
+    width: 100%;
     box-sizing: border-box;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     text-align: center;
-    text-decoration: none; /* Ensure no underline */
 }
 
 header h1 {
     margin: 0;
+    font-family: 'MetricHPE-Web-Bold', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 2.5rem;
 }
+
 h2 {
     margin: 0;
+    font-family: 'MetricHPE-Web-Bold', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 1.75rem;
 }
 

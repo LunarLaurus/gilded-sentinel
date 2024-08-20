@@ -24,26 +24,24 @@
 h1, h2, h3 {
     margin-top: 0;
     margin-bottom: 10px;
-    color: #b08900; /* Deep gold text */
 }
 
 ul {
     padding-left: 20px;
     margin: 0;
-    color: #5f4b00; /* Darker gold text */
 }
 
 /* Back button styles */
 .back-button {
     padding: 10px 15px;
-    background-color: #b08900;
-    color: white;
-    border: none;
+    background-color: #FFFDF7;
+    color: fff;
+    border: 1px solid #e2c75a;
     border-radius: 15px;
     cursor: pointer;
     font-size: 16px;
 }
 
 .back-button:hover {
-    background-color: #8c6e00;
+    background-color: #fffbe0;
 }

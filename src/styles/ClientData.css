@@ -13,32 +13,46 @@
     .card-container {
         grid-template-columns: 1fr; /* Switch to single column on smaller screens */
     }
-    .ilo-icon {
+    .vendor-icon {
+        width: 16px;
+        height: 16px;
+    }
+    .ipmi-icon {
         width: 16px;
         height: 16px;
     }
 }
 
 @media (min-width: 601px) and (max-width: 1200px) {
-    .ilo-icon {
+    .vendor-icon {
+        width: 32px;
+        height: 32px;
+    }
+    .ipmi-icon {
         width: 32px;
         height: 32px;
     }
 }
 
 @media (min-width: 1201px) {
-    .ilo-icon {
+    .vendor-icon {
+        width: 192px;
+        height: 192px;
+    }
+    .ipmi-icon {
         width: 192px;
         height: 192px;
     }
 }
 
 .client-card {
-    background: #fffbe0;
+    background: #FFFDF7; /* Half way between standard background and white */
     border: 1px solid #e2c75a;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 20px;
+    padding: 40px;
+    margin-left: 40px;
+    margin-right: 40px;
     max-width: 100%;
     box-sizing: border-box;
     cursor: pointer;
@@ -48,6 +62,7 @@
 }
 
 .client-card:hover {
+    background-color: #FFFDF0;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     transform: scale(1.001); /* Slightly scale up on hover */
 }
@@ -57,26 +72,32 @@
     margin-top: 0;
     font-size: 32px;
     text-align: center;
-    color: #b08900; /* Deep gold text */
+    /* Deep gold text b08900*/
 }
 
 .client-card h3 {
     margin-top: 0;
     font-size: 1.35rem;
     text-align: center;
-    color: #b08900; /* Deep gold text */
 }
 
 .client-card p {
     margin: 5px 0;
     text-align: center;
-    color: #5f4b00; /* Darker gold text */
+    /* Darker gold text 5f4b00*/
 }
 
-.ilo-icon {
+.vendor-icon {
     position: absolute; /* Position icon absolutely */
     top: 10px; /* Distance from top */
     left: 10px; /* Distance from right */
+    width: 32px; /* Set appropriate width */
+    height: 32px; /* Set appropriate height */
+}
+.ipmi-icon {
+    position: absolute; /* Position icon absolutely */
+    top: 10px; /* Distance from top */
+    left: 52px; /* Distance from right */
     width: 32px; /* Set appropriate width */
     height: 32px; /* Set appropriate height */
 }

@@ -1,0 +1,65 @@
+
+    Directory: C:\Coding\React\gilded-sentinel\public\font\hpe\web
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a---          19/08/2024 12:19 PM              0 fonts.txt
+-a---          19/08/2024 11:41 AM          59360 HPESimpleWeb-Bold.eot
+-a---          19/08/2024 11:41 AM         197061 HPESimpleWeb-Bold.svg
+-a---          19/08/2024 11:41 AM          62076 HPESimpleWeb-Bold.ttf
+-a---          19/08/2024 11:41 AM          25348 HPESimpleWeb-Bold.woff
+-a---          19/08/2024 11:41 AM          18676 HPESimpleWeb-Bold.woff2
+-a---          19/08/2024 11:41 AM          64528 HPESimpleWeb-BoldOblique.eot
+-a---          19/08/2024 11:41 AM         213095 HPESimpleWeb-BoldOblique.svg
+-a---          19/08/2024 11:41 AM          67256 HPESimpleWeb-BoldOblique.ttf
+-a---          19/08/2024 11:41 AM          29028 HPESimpleWeb-BoldOblique.woff
+-a---          19/08/2024 11:41 AM          21120 HPESimpleWeb-BoldOblique.woff2
+-a---          19/08/2024 11:41 AM          67332 HPESimpleWeb-Light.eot
+-a---          19/08/2024 11:41 AM         185994 HPESimpleWeb-Light.svg
+-a---          19/08/2024 11:41 AM          70040 HPESimpleWeb-Light.ttf
+-a---          19/08/2024 11:41 AM          25788 HPESimpleWeb-Light.woff
+-a---          19/08/2024 11:41 AM          18896 HPESimpleWeb-Light.woff2
+-a---          19/08/2024 11:41 AM          71736 HPESimpleWeb-LightOblique.eot
+-a---          19/08/2024 11:41 AM         199181 HPESimpleWeb-LightOblique.svg
+-a---          19/08/2024 11:41 AM          74452 HPESimpleWeb-LightOblique.ttf
+-a---          19/08/2024 11:41 AM          29192 HPESimpleWeb-LightOblique.woff
+-a---          19/08/2024 11:41 AM          20984 HPESimpleWeb-LightOblique.woff2
+-a---          19/08/2024 11:41 AM          63696 HPESimpleWeb-Oblique.eot
+-a---          19/08/2024 11:41 AM         208447 HPESimpleWeb-Oblique.svg
+-a---          19/08/2024 11:41 AM          66436 HPESimpleWeb-Oblique.ttf
+-a---          19/08/2024 11:41 AM          28624 HPESimpleWeb-Oblique.woff
+-a---          19/08/2024 11:41 AM          20744 HPESimpleWeb-Oblique.woff2
+-a---          19/08/2024 11:41 AM          58912 HPESimpleWeb-Regular.eot
+-a---          19/08/2024 11:41 AM         188122 HPESimpleWeb-Regular.svg
+-a---          19/08/2024 11:41 AM          61636 HPESimpleWeb-Regular.ttf
+-a---          19/08/2024 11:41 AM          25396 HPESimpleWeb-Regular.woff
+-a---          19/08/2024 11:41 AM          18564 HPESimpleWeb-Regular.woff2
+-a---          19/08/2024 11:41 AM          90060 MetricHPE-Web-Black.eot
+-a---          19/08/2024 11:41 AM          41133 MetricHPE-Web-Black.woff
+-a---          19/08/2024 11:41 AM          93024 MetricHPE-Web-BlackItalic.eot
+-a---          19/08/2024 11:41 AM          42909 MetricHPE-Web-BlackItalic.woff
+-a---          19/08/2024 11:41 AM          98640 MetricHPE-Web-Bold.eot
+-a---          19/08/2024 11:41 AM          48829 MetricHPE-Web-Bold.woff
+-a---          19/08/2024 11:41 AM          90540 MetricHPE-Web-BoldItalic.eot
+-a---          19/08/2024 11:41 AM          43457 MetricHPE-Web-BoldItalic.woff
+-a---          19/08/2024 11:41 AM          92184 MetricHPE-Web-Light.eot
+-a---          19/08/2024 11:41 AM          43377 MetricHPE-Web-Light.woff
+-a---          19/08/2024 11:41 AM          90556 MetricHPE-Web-LightItalic.eot
+-a---          19/08/2024 11:41 AM          43241 MetricHPE-Web-LightItalic.woff
+-a---          19/08/2024 11:41 AM          84180 MetricHPE-Web-Medium.eot
+-a---          19/08/2024 11:41 AM          40341 MetricHPE-Web-Medium.woff
+-a---          19/08/2024 11:41 AM          86240 MetricHPE-Web-MediumItalic.eot
+-a---          19/08/2024 11:41 AM          41093 MetricHPE-Web-MediumItalic.woff
+-a---          19/08/2024 11:41 AM          92804 MetricHPE-Web-Regular.eot
+-a---          19/08/2024 11:41 AM          43933 MetricHPE-Web-Regular.woff
+-a---          19/08/2024 11:41 AM          86904 MetricHPE-Web-RegularItalic.eot
+-a---          19/08/2024 11:41 AM          42653 MetricHPE-Web-RegularItalic.woff
+-a---          19/08/2024 11:41 AM          93696 MetricHPE-Web-Semibold.eot
+-a---          19/08/2024 11:41 AM          45269 MetricHPE-Web-Semibold.woff
+-a---          19/08/2024 11:41 AM          90424 MetricHPE-Web-SemiboldItalic.eot
+-a---          19/08/2024 11:41 AM          43437 MetricHPE-Web-SemiboldItalic.woff
+-a---          19/08/2024 11:41 AM          86976 MetricHPE-Web-Thin.eot
+-a---          19/08/2024 11:41 AM          38781 MetricHPE-Web-Thin.woff
+-a---          19/08/2024 11:41 AM          88336 MetricHPE-Web-ThinItalic.eot
+-a---          19/08/2024 11:41 AM          39849 MetricHPE-Web-ThinItalic.woff
+

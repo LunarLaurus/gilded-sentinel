@@ -1,14 +1,17 @@
-import { IntegratedLightsOutInfo } from './IloInterfaces';
+import { IpmiInfo } from './IpmiInterfaces';
 
 export interface Client {
     name: string;
-    ilo?: IntegratedLightsOutInfo;
+    vendor: string;
+    ipmi: boolean;
     system: System;
+    impiSystem?: IpmiInfo;
 }
 
 export interface System {
     cpus: CPU[];
     cpuCount: number;
+    cpuCoreCount: number;
 }
 
 export interface CPU {
