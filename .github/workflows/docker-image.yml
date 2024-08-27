@@ -1,4 +1,4 @@
-name: Build and Save Docker Image
+name: Docker-Construct
 
 on:
   push:
@@ -13,32 +13,32 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Set up Node.js
+      - name: Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '16'
 
-      - name: Install dependencies
+      - name: Dependencies
         run: npm install
 
-      - name: Build the project
+      - name: Build
         run: npm run build
 
       # Generate a unique tag based on the Git commit hash or a timestamp
-      - name: Generate Docker tag
+      - name: Tagging
         id: docker_tag
         run: echo "TAG=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
 
-      - name: Build Docker image
+      - name: Build Docker 
         run: docker build -t gilded-sentinel:${{ env.TAG }} .
 
-      - name: Save Docker image as a .tar file
+      - name: Save Docker
         run: docker save gilded-sentinel:${{ env.TAG }} -o gilded-sentinel-${{ env.TAG }}.tar
 
-      - name: Upload Docker image as artifact
+      - name: Upload Docker Artifact
         uses: actions/upload-artifact@v3
         with:
           name: gilded-sentinel-docker-image-${{ env.TAG }}
