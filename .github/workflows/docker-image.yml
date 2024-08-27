@@ -55,7 +55,7 @@ jobs:
       - name: Build and push multi-platform Docker image
         run: |
           docker buildx build --platform linux/amd64,linux/arm64 \
-          --tag your-dockerhub-username/gilded-sentinel:${{ env.TAG }} \
+          --tag ${{ secrets.DOCKER_USERNAME }}/gilded-sentinel:${{ env.TAG }} \
           --push .
 
   create-release:
@@ -64,19 +64,23 @@ jobs:
     if: github.event_name == 'push'
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Download Docker Artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: gilded-sentinel-docker-image-v${{ github.run_number }}
-          path: ./docker-artifacts/
-
       - name: Create GitHub Release
+        id: create_release
         uses: softprops/action-gh-release@v1
         with:
           tag_name: v${{ github.run_number }}
-          files: ./docker-artifacts/gilded-sentinel-v${{ github.run_number }}.tar
+          body: |
+            ### Docker Image
+            The Docker image for this release is available at:
+            - [Docker Hub Image](https://hub.docker.com/r/${{ secrets.DOCKER_USERNAME }}/gilded-sentinel/tags?page=1&name=${{ github.run_number }})
+
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload release assets
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./path-to-your-asset
+          asset_name: your-asset-name
+          asset_content_type: application/octet-stream
