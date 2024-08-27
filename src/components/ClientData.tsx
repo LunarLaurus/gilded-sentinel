@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import '../styles/ClientData.css';
 import callEndpointNoArguments from '../hooks/useEndpointNoArguments';
 import { useNavigate } from 'react-router-dom';

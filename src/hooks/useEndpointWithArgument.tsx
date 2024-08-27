@@ -17,7 +17,7 @@ const useEndpointWithArgument = <T,>(path: string, id: string | undefined) => {
         }
 
         console.info("Trying to lookup " + id);
-        console.info("Fetching data from " + `${API_URL}/${path}/${id}`); // Correct URL construction
+        console.info(`Fetching data from ${API_URL}/${path}/${id}`); 
 
         const fetchData = async () => {
             try {
