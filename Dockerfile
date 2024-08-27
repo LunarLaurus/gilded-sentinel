@@ -1,5 +1,5 @@
 # Stage 1: Build the React app
-FROM arm64v8/node:16-alpine as build
+FROM node:20.17-alpine3.20 as build
 
 # Set the working directory inside the container
 WORKDIR /gilded-sentinel
@@ -17,7 +17,7 @@ COPY . .
 RUN npm run build
 
 # Stage 2: Serve the app using nginx
-FROM arm64v8/nginx:alpine
+FROM nginx:1.27.1-alpine3.20
 
 # Copy the build output from the previous stage
 COPY --from=build /gilded-sentinel/build /usr/share/nginx/html
