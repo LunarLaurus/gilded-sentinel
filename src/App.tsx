@@ -6,7 +6,7 @@ import ClientData from './components/ClientData';
 import ClientDetail from './components/ClientDetail';
 import './styles/styles.css'; // Import App-specific styles
 
-export const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:32550'; // Default value
+export const API_URL = window.env.REACT_APP_API_URL || 'http://localhost:32550';
 console.log("API_URL is set to:", API_URL);
 
 const App: React.FC = () => {
