@@ -1,4 +1,4 @@
-name: Docker-Construct
+name: Docker-Construct-Frontend
 
 on:
   push:
@@ -7,6 +7,7 @@ on:
   pull_request:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   build:
@@ -14,32 +15,65 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Node.js
-        uses: actions/setup-node@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: '16'
 
-      - name: Dependencies
+      - name: Install Dependencies
         run: npm install
 
-      - name: Build
+      - name: Build Project
         run: npm run build
 
-      # Generate a unique tag based on the Git commit hash or a timestamp
-      - name: Tagging
+      - name: Generate Docker Tag
         id: docker_tag
         run: echo "TAG=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
 
-      - name: Build Docker 
+      - name: Build Docker Image
         run: docker build -t gilded-sentinel:${{ env.TAG }} .
 
-      - name: Save Docker
+      - name: Save Docker Image
         run: docker save gilded-sentinel:${{ env.TAG }} -o gilded-sentinel-${{ env.TAG }}.tar
 
       - name: Upload Docker Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: gilded-sentinel-docker-image-${{ env.TAG }}
           path: gilded-sentinel-${{ env.TAG }}.tar
+
+  create-release:
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.event_name == 'push'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download Docker Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: gilded-sentinel-docker-image-${{ env.TAG }}
+          path: ./docker-artifacts/
+
+      - name: Configure Git
+        run: |
+          git config --global user.email "actions@github.com"
+          git config --global user.name "GitHub Actions"
+
+      - name: Create Git Tag
+        id: tag
+        run: |
+          git tag -a "v${{ env.TAG }}" -m "Release v${{ env.TAG }}"
+          git push origin "v${{ env.TAG }}"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v${{ env.TAG }}
+          files: ./docker-artifacts/gilded-sentinel-${{ env.TAG }}.tar
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
