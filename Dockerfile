@@ -2,7 +2,7 @@
 FROM node:16-alpine as build
 
 # Set the working directory inside the container
-WORKDIR /app
+WORKDIR /gilded-sentinel
 
 # Copy only the package.json and package-lock.json to leverage Docker layer caching
 COPY package*.json ./
@@ -20,7 +20,7 @@ RUN npm run build
 FROM nginx:alpine
 
 # Copy the build output from the previous stage
-COPY --from=build /app/build /usr/share/nginx/html
+COPY --from=build /gilded-sentinel/build /usr/share/nginx/html
 
 # Copy custom nginx configuration if you have one (optional)
 # COPY nginx.conf /etc/nginx/nginx.conf
