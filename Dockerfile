@@ -5,7 +5,7 @@ COPY package*.json ./
 RUN npm install --frozen-lockfile
 COPY . .
 RUN npm run build
-FROM nginx:1.27.1-alpine3.20
+FROM nginx:1-alpine-slim
 
 # Copy the project itself
 COPY --from=build /gilded-sentinel/build /usr/share/nginx/html
