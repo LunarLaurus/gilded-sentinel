@@ -28,10 +28,15 @@ const TemperatureChart: React.FC<TemperatureChartProps> = ({ id }) => {
     const chartData = generateChartData(temperatureData, selectedTab);
     const hasValidData = chartData.datasets && chartData.datasets.length > 0 && chartData.datasets[0].data.length > 0;
     let minTemp = 10;
-    let maxTemp = 110;
+    let maxTemp = 110;    
     if (hasValidData) {
-        minTemp = Math.floor(Math.min(...chartData.datasets[0].data) / 10) * 10;
-        maxTemp = Math.ceil(Math.max(...chartData.datasets[0].data) / 10) * 10;
+        const data = chartData.datasets[0].data;
+        minTemp = Math.floor(Math.min(...data) / 10) * 10;
+        maxTemp = Math.ceil(Math.max(...data) / 10) * 10;    
+        // Ensure that the range is more balanced if maxTemp is near minTemp
+        if (maxTemp - minTemp <= 15) {
+            maxTemp = minTemp + 20;
+        }
     } else {
         console.warn("No valid data available to calculate minTemp and maxTemp.");
     }

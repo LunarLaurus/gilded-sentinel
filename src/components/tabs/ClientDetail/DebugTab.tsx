@@ -11,6 +11,11 @@ const DebugTab: React.FC<DebugTabProps> = ({ client }) => {
         <div className="details-card">
             <h2>Debug Information</h2>
             <p>Type: {client.vendor}</p>
+            <p>Type: {client.name}</p>
+            <p>Type: {client.ipmiSystem?.type.toString()}</p>
+            <p>Type: {client.ipmiSystem?.updateIpmiEveryXUpdates.toString()}</p>
+            <pre>{JSON.stringify(client, null, 2)}</pre>
+            <p>Type: {client.vendor}</p>
         </div>
     );
 };

@@ -22,7 +22,11 @@ const ClientDetail: React.FC = () => {
 
     // Determine which tabs to show
     const ipmiTabEnabled = !!client.hasIpmi;
-    const TAB_OPTIONS = ipmiTabEnabled ? ['System', 'Temperature', 'Ipmi', 'Debug'] : ['System', 'Temperature', 'Debug'];
+    const ipmiTabName = client.ipmiSystem?.type ? `${client.ipmiSystem.type}` : 'IPMI';
+    // Dynamically create tab options
+    const TAB_OPTIONS = ipmiTabEnabled ? ['System', 'Temperature', ipmiTabName, 'Debug'] : ['System', 'Temperature', 'Debug'];
+
+    
 
     const renderTabContent = () => {
         switch (selectedTab) {
@@ -30,7 +34,7 @@ const ClientDetail: React.FC = () => {
                 return <SystemTab client={client} />;
             case 'Temperature':
                 return <TemperatureTab client={client} />;
-            case 'Ipmi':
+            case ipmiTabName:
                 return ipmiTabEnabled ? <IpmiTab client={client} /> : <div>Select a tab to view content</div>;
             case 'Debug':
                 return <DebugTab client={client} />;

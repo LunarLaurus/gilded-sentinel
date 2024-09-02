@@ -76,7 +76,7 @@ const ClientData: React.FC = () => {
                         />
                         {client.hasIpmi && (
                             <img
-                                src={getIpmiImagePath(client.impiSystem?.type)}
+                                src={getIpmiImagePath(client.ipmiSystem?.type)}
                                 alt={`${client.hasIpmi} logo`}
                                 className="ipmi-icon"
                             />

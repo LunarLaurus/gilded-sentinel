@@ -5,7 +5,7 @@ export interface Client {
     vendor: string;
     hasIpmi: boolean;
     system: System;
-    impiSystem?: IpmiInfo;
+    ipmiSystem?: IpmiInfo;
 }
 
 export interface System {

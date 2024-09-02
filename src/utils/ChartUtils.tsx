@@ -125,8 +125,8 @@ export const generateChartData = (
                     pointBackpointBorderColorgroundColor: processedData.map(record => ColorUtils.getColour(record.temperature)),
                     backgroundColor: processedData.map(record => ColorUtils.getColour(record.temperature)),
                     pointBackgroundColor: processedData.map(record => ColorUtils.getColour(record.temperature)),
-                    borderWidth: 4,
-                    pointRadius: 4,
+                    borderWidth: processedData.map(record => record.temperature * 2 / 15),
+                    pointRadius: processedData.map(record => record.temperature * 2 / 20),
 
                 },
             ],
