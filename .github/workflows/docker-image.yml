@@ -116,7 +116,7 @@ jobs:
           body: |
             ### Docker Image
             The Docker image for this release is available at:
-            - [Docker Hub Image](https://hub.docker.com/r/${{ secrets.DOCKER_USERNAME }}/gilded-sentinel/tags?page=1&name=${{ needs.build.outputs.tag }})
+            - [Docker Hub Image - ${{ needs.build.outputs.tag }}](https://hub.docker.com/r/${{ secrets.DOCKER_USERNAME }}/gilded-sentinel/tags)
 
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
