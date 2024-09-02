@@ -4,7 +4,11 @@ export interface IPv4Address {
 export interface IpmiInfo {
     parentHostName: string;
     address: IPv4Address;
-    impiType: string;
+    type: string;
     updateIpmiEveryXUpdates: number;
     updateCounter: number;
+    ipmiHardware: IpmiPeripheralBase[];
+}
+export interface IpmiPeripheralBase {
+    
 }

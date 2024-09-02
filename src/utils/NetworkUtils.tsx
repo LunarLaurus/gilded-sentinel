@@ -6,7 +6,7 @@ export function ipv4ToString(ip: IPv4Address): string {
 }
 
 export function getClientIpmiIp(client: Client): string {
-    if (client.ipmi && client.impiSystem?.address) {
+    if (client.hasIpmi && client.impiSystem?.address) {
         return ipv4ToString(client.impiSystem?.address);
     } else {
         return 'N/A';

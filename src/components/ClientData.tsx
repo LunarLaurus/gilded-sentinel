@@ -29,35 +29,23 @@ const ClientData: React.FC = () => {
     };
 
     const getVendorImagePath = (vendor: string | null | undefined): string => {
-        if (!vendor) {
-            return '/icons/vendor/default-32x.png'; // Return default image if vendor is null or undefined
-        }
-        switch (vendor.toLowerCase()) {
-            case 'dell':
-                return '/icons/vendor/dell/dell-32x.png';
-            case 'hp':
-            case 'hpe':
-                return '/icons/vendor/hpe/hpe-32x.png';
-            default:
-                return '/icons/vendor/default-32x.png';
-        }
-    };
+        const vendorImageMap: { [key: string]: string } = {
+            dell: '/icons/vendor/dell/dell-32x.png',
+            hp: '/icons/vendor/hpe/hpe-32x.png',
+            hpe: '/icons/vendor/hpe/hpe-32x.png',
+        };
+    
+        return vendor ? vendorImageMap[vendor.toLowerCase()] || '/icons/vendor/default-32x.png' : '/icons/vendor/default-32x.png';
+    };    
 
     const getIpmiImagePath = (ipmi: string | null | undefined): string => {
-        if (!ipmi) {
-            return '/icons/ipmi/default-32x.png'; // Return default image if IPMI is null or undefined
-        }
-        switch (ipmi.toLowerCase()) {
-            case 'dell':
-                return '/icons/ipmi/drac/drac-32x.png';
-            case 'hp':
-            case 'hpe':
-                return '/icons/ipmi/ilo/ilo-32x.png';
-            default:
-                return '/icons/ipmi/default-32x.png';
-        }
+        const ipmiImageMap: { [key: string]: string } = {
+            drac: '/icons/ipmi/drac/drac-32x.png',
+            ilo: '/icons/ipmi/ilo/ilo-32x.png',
+        };
+    
+        return ipmi ? ipmiImageMap[ipmi.toLowerCase()] || '/icons/ipmi/default-32x.png' : '/icons/ipmi/default-32x.png';
     };
-
 
     return (
         <div className="card-container">
@@ -86,10 +74,10 @@ const ClientData: React.FC = () => {
                             alt={`${client.vendor} logo`}
                             className="vendor-icon"
                         />
-                        {client.ipmi && (
+                        {client.hasIpmi && (
                             <img
-                                src={getIpmiImagePath(client.impiSystem?.impiType)}
-                                alt={`${client.ipmi} logo`}
+                                src={getIpmiImagePath(client.impiSystem?.type)}
+                                alt={`${client.hasIpmi} logo`}
                                 className="ipmi-icon"
                             />
                         )}

@@ -8,6 +8,7 @@ import TabButtons from './TabButtons';
 import SystemTab from './tabs/ClientDetail/SystemTab';
 import TemperatureTab from './tabs/ClientDetail/TemperatureTab';
 import IpmiTab from './tabs/ClientDetail/IpmiTab';
+import DebugTab from './tabs/ClientDetail/DebugTab';
 
 const ClientDetail: React.FC = () => {
     const { id } = useParams<{ id: string }>();
@@ -20,8 +21,8 @@ const ClientDetail: React.FC = () => {
     if (!client) return <div className="text-center">Client not found</div>;
 
     // Determine which tabs to show
-    const ipmiTabEnabled = !!client.ipmi;
-    const TAB_OPTIONS = ipmiTabEnabled ? ['System', 'Temperature', 'Ipmi'] : ['System', 'Temperature'];
+    const ipmiTabEnabled = !!client.hasIpmi;
+    const TAB_OPTIONS = ipmiTabEnabled ? ['System', 'Temperature', 'Ipmi', 'Debug'] : ['System', 'Temperature', 'Debug'];
 
     const renderTabContent = () => {
         switch (selectedTab) {
@@ -31,6 +32,8 @@ const ClientDetail: React.FC = () => {
                 return <TemperatureTab client={client} />;
             case 'Ipmi':
                 return ipmiTabEnabled ? <IpmiTab client={client} /> : <div>Select a tab to view content</div>;
+            case 'Debug':
+                return <DebugTab client={client} />;
             default:
                 return <div>Select a tab to view content</div>;
         }

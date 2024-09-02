@@ -3,7 +3,7 @@ import { IpmiInfo } from './IpmiInterfaces';
 export interface Client {
     name: string;
     vendor: string;
-    ipmi: boolean;
+    hasIpmi: boolean;
     system: System;
     impiSystem?: IpmiInfo;
 }
