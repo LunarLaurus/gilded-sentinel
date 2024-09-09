@@ -4,13 +4,11 @@ on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
   workflow_dispatch:
 
 jobs:
   bump-version:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.get_version.outputs.version }}
@@ -50,6 +48,7 @@ jobs:
           git push origin ${{ github.ref }}
 
   build:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     needs: bump-version
     outputs:
@@ -104,9 +103,9 @@ jobs:
           --push .
 
   create-release:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     needs: build
-    if: github.event_name == 'push'
 
     steps:
       - name: Create GitHub Release
