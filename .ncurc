@@ -1,0 +1,8 @@
+{
+    "reject": [
+        "typescript"
+    ],
+    "target": "latest",
+    "dep": "prod,dev",
+    "loglevel": "warn"
+}

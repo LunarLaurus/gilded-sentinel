@@ -1,0 +1,76 @@
+name: Tidy Up Project
+
+on:
+  push:
+    branches:
+      - '**'
+
+jobs:
+  tidy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Check if ncu and depcheck are installed
+        id: check_installation
+        run: |
+          if ! command -v ncu &> /dev/null; then
+            echo "ncu not found. Setting INSTALL_NCU=true"
+            echo "INSTALL_NCU=true" >> $GITHUB_ENV
+          else
+            echo "ncu is already installed."
+            echo "INSTALL_NCU=false" >> $GITHUB_ENV
+          fi
+          if ! command -v depcheck &> /dev/null; then
+            echo "depcheck not found. Setting INSTALL_DEPCHECK=true"
+            echo "INSTALL_DEPCHECK=true" >> $GITHUB_ENV
+          else
+            echo "depcheck is already installed."
+            echo "INSTALL_DEPCHECK=false" >> $GITHUB_ENV
+          fi
+
+      - name: Install dependencies
+        run: npm install
+        if: steps.check_installation.outputs.INSTALL_NCU == 'true' || steps.check_installation.outputs.INSTALL_DEPCHECK == 'true'
+
+      - name: Install ncu and depcheck
+        if: steps.check_installation.outputs.INSTALL_NCU == 'true'
+        run: npm install -g npm-check-updates
+
+      - name: Install depcheck
+        if: steps.check_installation.outputs.INSTALL_DEPCHECK == 'true'
+        run: npm install -g depcheck
+
+      - name: Run npm-check-updates
+        run: ncu -u
+
+      - name: Run depcheck
+        run: depcheck
+
+      - name: Install updated dependencies
+        run: npm install
+
+      - name: Check for changes
+        id: check_changes
+        run: |
+          git config --local user.name "github-actions"
+          git config --local user.email "actions@github.com"
+          git add .
+          git diff --cached --exit-code || echo "Changes detected"
+        continue-on-error: true
+
+      - name: Commit changes
+        if: steps.check_changes.outputs.changes_detected == 'true'
+        run: |
+          git commit -m "✨ Tidy up project dependencies and remove unused ones" || echo "No changes to commit"
+
+      - name: Push changes
+        if: steps.check_changes.outputs.changes_detected == 'true'
+        run: git push
