@@ -8,9 +8,8 @@ on:
 jobs:
   tidy:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
+      - name: Checkout Code
         uses: actions/checkout@v3
 
       - name: Setup Node.js
@@ -18,34 +17,33 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Check if ncu and depcheck are installed
-        id: check_installation
+      - name: Check if ncu is installed
+        id: check_ncu
         run: |
-          if ! command -v ncu &> /dev/null; then
-            echo "ncu not found. Setting INSTALL_NCU=true"
-            echo "INSTALL_NCU=true" >> $GITHUB_ENV
+          if command -v ncu &> /dev/null; then
+            echo "ncu_installed=true" >> $GITHUB_OUTPUT
           else
-            echo "ncu is already installed."
-            echo "INSTALL_NCU=false" >> $GITHUB_ENV
+            echo "ncu_installed=false" >> $GITHUB_OUTPUT
           fi
-          if ! command -v depcheck &> /dev/null; then
-            echo "depcheck not found. Setting INSTALL_DEPCHECK=true"
-            echo "INSTALL_DEPCHECK=true" >> $GITHUB_ENV
+
+      - name: Check if depcheck is installed
+        id: check_depcheck
+        run: |
+          if command -v depcheck &> /dev/null; then
+            echo "depcheck_installed=true" >> $GITHUB_OUTPUT
           else
-            echo "depcheck is already installed."
-            echo "INSTALL_DEPCHECK=false" >> $GITHUB_ENV
+            echo "depcheck_installed=false" >> $GITHUB_OUTPUT
           fi
 
       - name: Install dependencies
         run: npm install
-        if: steps.check_installation.outputs.INSTALL_NCU == 'true' || steps.check_installation.outputs.INSTALL_DEPCHECK == 'true'
 
-      - name: Install ncu and depcheck
-        if: steps.check_installation.outputs.INSTALL_NCU == 'true'
+      - name: Install ncu
+        if: steps.check_ncu.outputs.ncu_installed == 'false'
         run: npm install -g npm-check-updates
 
       - name: Install depcheck
-        if: steps.check_installation.outputs.INSTALL_DEPCHECK == 'true'
+        if: steps.check_depcheck.outputs.depcheck_installed == 'false'
         run: npm install -g depcheck
 
       - name: Run npm-check-updates
@@ -63,8 +61,12 @@ jobs:
           git config --local user.name "github-actions"
           git config --local user.email "actions@github.com"
           git add .
-          git diff --cached --exit-code || echo "Changes detected"
-        continue-on-error: true
+          git diff --cached --exit-code
+          if [ $? -ne 0 ]; then
+            echo "::set-output name=changes_detected::true"
+          else
+            echo "::set-output name=changes_detected::false"
+          fi
 
       - name: Commit changes
         if: steps.check_changes.outputs.changes_detected == 'true'
