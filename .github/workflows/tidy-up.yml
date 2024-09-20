@@ -21,29 +21,29 @@ jobs:
         id: check_ncu
         run: |
           if command -v ncu &> /dev/null; then
-            echo "ncu_installed=true" >> $GITHUB_ENV
+            echo "ncu_installed=true" >> $GITHUB_OUTPUT
           else
-            echo "ncu_installed=false" >> $GITHUB_ENV
+            echo "ncu_installed=false" >> $GITHUB_OUTPUT
           fi
 
       - name: Check if depcheck is installed
         id: check_depcheck
         run: |
           if command -v depcheck &> /dev/null; then
-            echo "depcheck_installed=true" >> $GITHUB_ENV
+            echo "depcheck_installed=true" >> $GITHUB_OUTPUT
           else
-            echo "depcheck_installed=false" >> $GITHUB_ENV
+            echo "depcheck_installed=false" >> $GITHUB_OUTPUT
           fi
 
       - name: Install dependencies
         run: npm install
 
       - name: Install ncu
-        if: ${{ env.ncu_installed == 'false' }}
+        if: ${{ steps.check_ncu.outputs.ncu_installed == 'false' }}
         run: npm install -g npm-check-updates
 
       - name: Install depcheck
-        if: ${{ env.depcheck_installed == 'false' }}
+        if: ${{ steps.check_depcheck.outputs.depcheck_installed == 'false' }}
         run: npm install -g depcheck
 
       - name: Run npm-check-updates
@@ -57,22 +57,23 @@ jobs:
 
       - name: Check for changes
         id: check_changes
+        continue-on-error: true
         run: |
           git config --local user.name "github-actions"
           git config --local user.email "actions@github.com"
           git add .
           git diff --cached --exit-code
           if [ $? -ne 0 ]; then
-            echo "changes_detected=true" >> $GITHUB_ENV
+            echo "changes_detected=true" >> $GITHUB_OUTPUT
           else
-            echo "changes_detected=false" >> $GITHUB_ENV
+            echo "changes_detected=false" >> $GITHUB_OUTPUT
           fi
 
       - name: Commit changes
-        if: ${{ env.changes_detected == 'true' }}
+        if: ${{ steps.check_changes.outputs.changes_detected == 'true' }}
         run: |
           git commit -m "✨ Tidy up project dependencies and remove unused ones" || echo "No changes to commit"
 
       - name: Push changes
-        if: ${{ env.changes_detected == 'true' }}
+        if: ${{ steps.check_changes.outputs.changes_detected == 'true' }}
         run: git push
