@@ -1,30 +1,38 @@
 import { TemperatureRecord } from '../../../types/TemperatureRecordInterfaces';
 
-interface AggregatedData {
-    sum: number;
-    count: number;
+interface AggregatedTemperatureData {
+    temperatureSum: number;
+    dataCount: number;
+    id: number;
+    owner: string;
 }
 
 class TemperatureDataAggregator {
-    static aggregateData(data: TemperatureRecord[], intervalMs: number): TemperatureRecord[] {
-        // Using Record type for better readability
-        const aggregated: Record<number, AggregatedData> = {};
+    static aggregateTemperatureData(records: TemperatureRecord[], intervalMs: number): TemperatureRecord[] {
+        const aggregatedRecords: Record<number, AggregatedTemperatureData> = {};
 
-        data.forEach(record => {
-            const recordTime = new Date(record.timestamp).getTime();
-            const intervalStart = Math.floor(recordTime / intervalMs) * intervalMs;
+        records.forEach(record => {
+            const recordTimestampMs = new Date(record.timestamp).getTime();
+            const intervalStart = Math.floor(recordTimestampMs / intervalMs) * intervalMs;
 
-            if (!aggregated[intervalStart]) {
-                aggregated[intervalStart] = { sum: 0, count: 0 };
+            if (!aggregatedRecords[intervalStart]) {
+                aggregatedRecords[intervalStart] = {
+                    temperatureSum: 0,
+                    dataCount: 0,
+                    id: record.id,
+                    owner: record.owner
+                };
             }
 
-            aggregated[intervalStart].sum += record.temperature;
-            aggregated[intervalStart].count += 1;
+            aggregatedRecords[intervalStart].temperatureSum += record.temperature;
+            aggregatedRecords[intervalStart].dataCount += 1;
         });
 
-        return Object.entries(aggregated).map(([key, { sum, count }]) => ({
-            timestamp: new Date(Number(key)).toISOString(),
-            temperature: sum / count
+        return Object.entries(aggregatedRecords).map(([intervalStart, { temperatureSum, dataCount, id, owner }]) => ({
+            id,
+            owner,
+            timestamp: new Date(Number(intervalStart)).toISOString(),
+            temperature: temperatureSum / dataCount
         }));
     }
 }

@@ -1,7 +1,7 @@
 import { ChartOptions, TooltipItem } from 'chart.js';
 import { TemperatureRecord } from '../types/TemperatureRecordInterfaces';
 import DataAggregator from '../components/subcomponent/TemperatureChart/TemperatureDataAggregator';
-import ColorUtils from '../utils/ColourUtils';
+import ColourUtils from '../utils/ColourUtils';
 
 // Define an interface for the options parameters
 interface ChartOptionsProps {
@@ -42,7 +42,6 @@ export const generateChartOptions = ({
                 // Optional: Customize x-axis if needed
                 // For example, you can set the time scale or other options
             }
-
         }
     };
 };
@@ -66,8 +65,8 @@ export const generateChartData = (
             '60 Minutes': { timeLimit: 60 * 60 * 1000, intervalMs: 60 * 1000 },
             '6 Hours': { timeLimit: 6 * 60 * 60 * 1000, intervalMs: 15 * 60 * 1000 }, // 15 minutes
             '24 Hours': { timeLimit: 24 * 60 * 60 * 1000, intervalMs: 30 * 60 * 1000 }, // 30 minutes
-            '7 days': { timeLimit: 7 * 24 * 60 * 60 * 1000, intervalMs: 6 * 60 * 60 * 1000 }, // 6 hours
-            '30 days': { timeLimit: 30 * 24 * 60 * 60 * 1000, intervalMs: 6 * 60 * 60 * 1000 }, // 6 hours
+            '7 Days': { timeLimit: 7 * 24 * 60 * 60 * 1000, intervalMs: 6 * 60 * 60 * 1000 }, // 6 hours
+            '30 Days': { timeLimit: 30 * 24 * 60 * 60 * 1000, intervalMs: 6 * 60 * 60 * 1000 }, // 6 hours
             '1 Year': { timeLimit: 365 * 24 * 60 * 60 * 1000, intervalMs: 7 * 24 * 60 * 60 * 1000 }, // 7 days
         };
 
@@ -77,7 +76,6 @@ export const generateChartData = (
             console.warn("Invalid or empty data array.");
             return [];
         }
-
 
         const latestRecordTime = new Date(data[data.length - 1].timestamp).getTime();
         console.log("Latest record time:", latestRecordTime);
@@ -100,7 +98,7 @@ export const generateChartData = (
             });
 
         if ('intervalMs' in config) {
-            return DataAggregator.aggregateData(filteredData, config.intervalMs);
+            return DataAggregator.aggregateTemperatureData(filteredData, config.intervalMs);
         }
 
         return filteredData;
@@ -121,13 +119,11 @@ export const generateChartData = (
                         return record?.temperature;
                     }),
                     fill: false,
-                    borderColor: processedData.map(record => ColorUtils.getColour(record.temperature)),
-                    pointBackpointBorderColorgroundColor: processedData.map(record => ColorUtils.getColour(record.temperature)),
-                    backgroundColor: processedData.map(record => ColorUtils.getColour(record.temperature)),
-                    pointBackgroundColor: processedData.map(record => ColorUtils.getColour(record.temperature)),
+                    borderColor: processedData.map(record => ColourUtils.getColour(record.temperature)),
+                    pointBackgroundColor: processedData.map(record => ColourUtils.getColour(record.temperature)),
+                    backgroundColor: processedData.map(record => ColourUtils.getColour(record.temperature)),
                     borderWidth: processedData.map(record => record.temperature * 2 / 15),
                     pointRadius: processedData.map(record => record.temperature * 2 / 20),
-
                 },
             ],
         };
@@ -135,8 +131,7 @@ export const generateChartData = (
         console.error("Error generating chart data:", error);
         return {
             labels: [],
-            datasets: [],
-            options: {}
+            datasets: []
         };
     }
 };

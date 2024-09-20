@@ -7,8 +7,14 @@ class TemperatureDataFetcher {
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
-        return await response.json();
-    }
+        const data: TemperatureRecord[] = await response.json();
+        
+        // Convert timestamp to Date object
+        return data.map(record => ({
+            ...record,
+            timestamp: new Date(record.timestamp).toISOString(), // Ensure correct Date format
+        }));
+    }    
 }
 
 export default TemperatureDataFetcher;
