@@ -1,22 +1,27 @@
-// src/components/IpmiTab.tsx
 import React from 'react';
-import { getClientIpmiIp } from '../../../utils/NetworkUtils';
 import { Client } from '../../../types/ClientInterfaces';
+import IloIpmiTabContent from './ipmi/IloIpmiTabContent';
+import DracIpmiTabContent from './ipmi/DracIpmiTabContent';
 
 interface IpmiTabProps {
     client: Client;
 }
 
 const IpmiTab: React.FC<IpmiTabProps> = ({ client }) => {
+    const renderIpmiContent = () => {
+        switch (client.ipmiSystem?.type.toLowerCase()) {
+            case 'ilo':
+                return <IloIpmiTabContent client={client} />;
+            case 'drac':
+                return <DracIpmiTabContent client={client} />;
+            default:
+                return <p>Unsupported IPMI type</p>;
+        }
+    };
+
     return (
         <div className="details-card">
-            <h2>IPMI Information</h2>
-            <p>Address: {getClientIpmiIp(client)}</p>
-            <p>Type: {client.ipmiSystem?.type}</p>
-            <p>Host System: {client.ipmiSystem?.parentHostName}</p>
-            <p>Updating Every X Updates: {client.ipmiSystem?.updateIpmiEveryXUpdates}</p>
-            <p>Update Counter: {client.ipmiSystem?.updateCounter}</p>
-            <pre>{JSON.stringify(client, null, 2)}</pre>
+            {renderIpmiContent()}
         </div>
     );
 };
