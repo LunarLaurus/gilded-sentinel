@@ -1,12 +1,12 @@
 import React from 'react';
 import '../../styles/styles.css';
-import '../../styles/ContactPage.css';
+import '../../styles/InformationPage.css';
 
 const PrivacyPolicyPage: React.FC = () => {
 
     return (
-        <div className="contactpage-container">
-            <div className="contactpage-card" >
+        <div className="infopage-container">
+            <div className="infopage-card" >
                 <h2>Privacy Policy</h2>
                 <p>Lorem Ipsum</p>
             </div>
