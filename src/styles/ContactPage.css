@@ -1,0 +1,37 @@
+/* ClientData Component Styles */
+.contactpage-container {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr); /* Ensure two columns */
+    gap: 40px;
+    justify-content: center;
+    padding: 40px;
+}
+
+.contactpage-card {
+    background: #FFFFFF; /* Half way between standard background and white */
+    border: 1px solid #bda648;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    margin-left: 40px;
+    margin-right: 40px;
+    max-width: 100%;
+    box-sizing: border-box;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-decoration: none; /* Ensure no underline */
+}
+
+.contactpage-card h2 {
+    font-size: 32px;
+    text-align: center;
+}
+
+.contactpage-card h3 {
+    font-size: 1.35rem;
+    text-align: center;
+}
+
+.contactpage-card p {
+    margin: 5px 0;
+    text-align: center;
+}

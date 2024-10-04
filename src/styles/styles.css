@@ -19,6 +19,7 @@
 
 html,
 body {
+    height: 100%;
     margin: 0;
     padding: 0;
     font-family: 'MetricHPE-Web-Regular', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;

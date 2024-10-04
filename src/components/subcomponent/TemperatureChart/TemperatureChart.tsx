@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Line } from 'react-chartjs-2';
 import { Chart, registerables } from 'chart.js';
 import { TemperatureRecord } from '../../../types/TemperatureRecordInterfaces';
-import TabButtons from '../../TabButtons';
+import TabButtons from '../../tabs/TabButtons';
 import TemperatureDataFetcher from './TemperatureDataFetcher';
 import { generateChartData, generateChartOptions } from '../../../utils/ChartUtils';
 

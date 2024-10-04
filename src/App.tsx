@@ -1,23 +1,31 @@
 import React from 'react';
+import './styles/styles.css';
 import { Routes, Route } from 'react-router-dom';
 import Header from './components/primary/Header'; // Import Header
 import Footer from './components/primary/Footer'; // Import Footer
-import ClientData from './components/ClientData';
-import ClientDetail from './components/ClientDetail';
-import './styles/styles.css'; // Import App-specific styles
+import Homepage from './pages/Homepage';
+import ClientData from './pages/client/ClientData';
+import ClientDetail from './pages/client/ClientDetail';
+import ContactPage from './pages/info/ContactPage';
+import PrivacyPolicyPage from './pages/info/PrivacyPolicyPage';
+import TermsOfServicePage from './pages/info/TermsOfServicePage';
 
 export const API_URL = window.env?.REACT_APP_API_URL || 'http://localhost:32550';
 console.log("API_URL is set to:", API_URL);
 
 const App: React.FC = () => {
   return (
-    <div className="global.container">
-    <Header />
+    <div className="global.container" id="global.container">
+      <Header />""
       <main>
         <Routes>
           Console.log("Injecting React Application routes.");
-          <Route path="/" element={<ClientData />} />
+          <Route path="/" element={<Homepage />} />
+          <Route path="/clients" element={<ClientData />} />
           <Route path="/client/:id" element={<ClientDetail />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/terms" element={<TermsOfServicePage />} />
+          <Route path="/privacy" element={<PrivacyPolicyPage />} />
         </Routes>
       </main>
       <Footer />
