@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Line } from 'react-chartjs-2';
 import { Chart, registerables } from 'chart.js';
 import { TemperatureRecord } from '../../../types/TemperatureRecordInterfaces';
-import TabButtons from '../../TabButtons';
+import TabButtons from '../../tabs/TabButtons';
 import TemperatureDataFetcher from './TemperatureDataFetcher';
 import { generateChartData, generateChartOptions } from '../../../utils/ChartUtils';
 
@@ -21,10 +21,10 @@ const TemperatureChart: React.FC<TemperatureChartProps> = ({ id }) => {
     const [selectedTimeInterval, setSelectedTimeInterval] = useState(TAB_INTERVAL_OPTIONS[0]);
 
     const fetchTemperatureRecords = useCallback(() => {
-        TemperatureDataFetcher.fetchTemperatureData(id)
+        TemperatureDataFetcher.fetchTemperatureData(id, selectedTimeInterval)
             .then(fetchedData => setTemperatureRecords(fetchedData))
             .catch(fetchErr => setFetchError(fetchErr.message));
-    }, [id]);
+    }, [id, selectedTimeInterval]);
 
     const temperatureChartData = generateChartData(temperatureRecords, selectedTimeInterval);
     const isValidChartData = temperatureChartData?.datasets?.[0]?.data?.length > 0;
@@ -45,7 +45,7 @@ const TemperatureChart: React.FC<TemperatureChartProps> = ({ id }) => {
         console.warn("No valid temperature data available to calculate minTemperature and maxTemperature.");
     }
 
-    const chartOptions = generateChartOptions({ fixedYAxisRange: true, yAxisMin: minTemperature, yAxisMax: maxTemperature });
+    const chartOptions = generateChartOptions({ fixedYAxisRange: true, yAxisMin: minTemperature, yAxisMax: maxTemperature }, selectedTimeInterval);
 
     useEffect(() => {
         const intervalMapping: { [key: string]: number } = {

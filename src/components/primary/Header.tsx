@@ -3,6 +3,7 @@ import React from 'react';
 import '../../styles/primary/Header.css'
 
 const Header: React.FC = () => {
+    
     return (
         <header className="global-header">
             <div className="header-content">
