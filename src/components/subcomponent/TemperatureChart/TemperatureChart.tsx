@@ -45,7 +45,7 @@ const TemperatureChart: React.FC<TemperatureChartProps> = ({ id }) => {
         console.warn("No valid temperature data available to calculate minTemperature and maxTemperature.");
     }
 
-    const chartOptions = generateChartOptions({ fixedYAxisRange: true, yAxisMin: minTemperature, yAxisMax: maxTemperature });
+    const chartOptions = generateChartOptions({ fixedYAxisRange: true, yAxisMin: minTemperature, yAxisMax: maxTemperature }, selectedTimeInterval);
 
     useEffect(() => {
         const intervalMapping: { [key: string]: number } = {
