@@ -21,10 +21,10 @@ const TemperatureChart: React.FC<TemperatureChartProps> = ({ id }) => {
     const [selectedTimeInterval, setSelectedTimeInterval] = useState(TAB_INTERVAL_OPTIONS[0]);
 
     const fetchTemperatureRecords = useCallback(() => {
-        TemperatureDataFetcher.fetchTemperatureData(id)
+        TemperatureDataFetcher.fetchTemperatureData(id, selectedTimeInterval)
             .then(fetchedData => setTemperatureRecords(fetchedData))
             .catch(fetchErr => setFetchError(fetchErr.message));
-    }, [id]);
+    }, [id, selectedTimeInterval]);
 
     const temperatureChartData = generateChartData(temperatureRecords, selectedTimeInterval);
     const isValidChartData = temperatureChartData?.datasets?.[0]?.data?.length > 0;
