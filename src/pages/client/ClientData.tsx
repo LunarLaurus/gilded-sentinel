@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
-import '../styles/ClientData.css';
-import callEndpointNoArguments from '../hooks/useEndpointNoArguments';
+import '../../styles/ClientData.css';
+import callEndpointNoArguments from '../../hooks/useEndpointNoArguments';
 import { useNavigate } from 'react-router-dom';
-import { ClientsMap } from '../types/ClientInterfaces'; // Import the correct types
+import { ClientsMap } from '../../types/ClientInterfaces'; // Import the correct types
 
 const ClientData: React.FC = () => {
     const navigate = useNavigate();
