@@ -10,8 +10,10 @@ import ContactPage from './pages/info/ContactPage';
 import PrivacyPolicyPage from './pages/info/PrivacyPolicyPage';
 import TermsOfServicePage from './pages/info/TermsOfServicePage';
 import IpmiPage from './pages/ipmi/IpmiPage';
+import IpmiManagementIlo from './pages/ipmi/ilo/IpmiManagementIlo';
+import IpmiManagementDrac from './pages/ipmi/drac/IpmiManagementDrac';
 
-export const API_URL = window.env?.REACT_APP_API_URL || 'http://localhost:32550';
+export const API_URL = window.env?.REACT_APP_API_URL || 'http://localhost:35550';
 console.log("API_URL is set to:", API_URL);
 
 const App: React.FC = () => {
@@ -28,6 +30,10 @@ const App: React.FC = () => {
           <Route path="/client/:id" element={<ClientDetail />} />
 
           <Route path="/ipmi" element={<IpmiPage />} />
+
+          <Route path="/ipmi/ilo" element={<IpmiManagementIlo />} />
+
+          <Route path="/ipmi/drac" element={<IpmiManagementDrac />} />
 
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/terms" element={<TermsOfServicePage />} />

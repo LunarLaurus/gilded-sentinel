@@ -144,7 +144,7 @@ export const generateChartData = (
         const processedData = processData(temperatureData, selectedTab);
 
         return {
-            labels: processedData.map(record => new Date(record.timestamp).toISOString()), // Format to human-readable date/time
+            labels: processedData.map(record => new Date(record.timestamp).toISOString()),
             datasets: [
                 {
                     label: '°C',

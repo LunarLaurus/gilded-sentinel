@@ -1,0 +1,55 @@
+.ipmi-management-container {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 50px;
+}
+
+.ipmi-management-clients-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 50px;
+    margin-top: 20px;
+}
+
+.ipmi-management-client-card {
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: left;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.ipmi-management-client-title {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: #333;
+    text-align: center;
+}
+
+.ipmi-management-button-group {
+    display: flex;
+    justify-content: space-between;
+}
+
+.ipmi-management-btn {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+}
+
+.ipmi-management-btn-min {
+    background-color: #dc3545;
+}
+
+.ipmi-management-btn-max {
+    background-color: #28a745;
+}
+
+.ipmi-management-response-message {
+    margin-top: 20px;
+    font-size: 1rem;
+    color: #555;
+}
