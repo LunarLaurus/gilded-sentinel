@@ -18,6 +18,10 @@
     padding: 20px;
     text-align: left;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
 }
 
 .ipmi-management-client-title {
@@ -27,29 +31,74 @@
     text-align: center;
 }
 
-.ipmi-management-button-group {
+.ipmi-management-control {
     display: flex;
-    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.ipmi-management-dropdown,
+.ipmi-management-number-field,
+.ipmi-management-btn {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    height: 50px;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.ipmi-management-dropdown {
+    width: 150px;
+}
+
+.ipmi-management-number-field {
+    width: 80px;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.2s linear;
+
+    /* Remove spinners for number inputs */
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+
+.ipmi-management-number-field::-webkit-inner-spin-button,
+.ipmi-management-number-field::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.ipmi-management-number-field.visible {
+    visibility: visible;
+    opacity: 1;
 }
 
 .ipmi-management-btn {
-    padding: 10px 15px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+    width: 150px;
+    background-color: #007bff;
     color: white;
+    cursor: pointer;
+    border: none;
+    text-align: center;
+    transition: background-color 0.2s ease-in-out;
 }
 
-.ipmi-management-btn-min {
-    background-color: #dc3545;
+.ipmi-management-btn:hover {
+    background-color: #0056b3;
 }
 
-.ipmi-management-btn-max {
-    background-color: #28a745;
-}
-
-.ipmi-management-response-message {
-    margin-top: 20px;
-    font-size: 1rem;
-    color: #555;
+/* Visually hidden text for accessibility */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
 }
