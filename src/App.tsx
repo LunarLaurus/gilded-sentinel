@@ -11,6 +11,8 @@ import PrivacyPolicyPage from './pages/info/PrivacyPolicyPage';
 import TermsOfServicePage from './pages/info/TermsOfServicePage';
 import IpmiPage from './pages/ipmi/IpmiPage';
 import IpmiManagementIlo from './pages/ipmi/ilo/IpmiManagementIlo';
+import IloFanManagementPage from './pages/ipmi/ilo/IloFanManagementPage';
+import IloClientPage from './pages/ipmi/ilo/IloClientPage';
 import IpmiManagementDrac from './pages/ipmi/drac/IpmiManagementDrac';
 
 export const API_URL = window.env?.REACT_APP_API_URL || 'http://localhost:35550';
@@ -30,8 +32,10 @@ const App: React.FC = () => {
           <Route path="/client/:id" element={<ClientDetail />} />
 
           <Route path="/ipmi" element={<IpmiPage />} />
-
           <Route path="/ipmi/ilo" element={<IpmiManagementIlo />} />
+          <Route path="/ipmi/ilo/client/:id/*" element={<IloClientPage />} />
+
+          <Route path="/ipmi/ilo/fan" element={<IloFanManagementPage />} />
 
           <Route path="/ipmi/drac" element={<IpmiManagementDrac />} />
 
