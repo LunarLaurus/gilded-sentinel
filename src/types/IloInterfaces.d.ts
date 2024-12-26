@@ -52,34 +52,51 @@ export interface AuthenticatedClient {
     cpuData: IloProcessorSummary;
     memory: IloMemoryObject;
     fans: IloRestFanObject[];
+    thermalSensors: IloTemperatureSensor[];
     powerData: IloPowerObject;
     license: IloLicenseObject;
     lastUpdate: number;
 }
 
-// Fan Speed Update Request
+export interface IloTemperatureSensor {
+    name: string;
+    number: number;
+    locationXmm: number;
+    locationYmm: number;
+    physicalContext: string;
+    currentReading: number;
+    readingCelsius: number;
+    upperThresholdCritical: number;
+    upperThresholdFatal: number;
+    upperThresholdUser: number;
+    health: Health;
+    state: State;
+    unit: TemperatureUnit;
+}
 export interface IloFanSpeedUpdateRequestDto {
     iloClientAddress: IPv4Address;
     updateType: string;
     targetFanSpeed: number;
 }
 
-// IloBios Interface
 export interface IloBios {
     current: IloBiosObject;
     backup: IloBiosObject;
     bootBlock: IloBiosObject;
     uefiClass: number;
 }
+export interface IloBiosObject {
+    date: string;
+    version: string;
+    family: string;
+}
 
-// IloProcessorSummary
 export interface IloProcessorSummary {
     count: number;
     model: string;
     status: Health;
 }
 
-// Health Enum
 export enum Health {
     OK = 'OK',
     WARNING = 'WARNING',
@@ -87,7 +104,13 @@ export enum Health {
     UNKNOWN = 'UNKNOWN',
 }
 
-// Memory Interfaces
+export enum TemperatureUnit {
+    CELSIUS = 'CELSIUS',
+    FAHRENHEIT = 'FAHRENHEIT',
+    KELVIN = 'KELVIN',
+    UNKNOWN = 'UNKNOWN',
+}
+
 export interface IloMemoryObject {
     dimms: IloMemoryDimm[];
     lastUpdateTime: number;
@@ -152,11 +175,13 @@ export enum HpMemoryType {
 
 // Rest Fan Object
 export interface IloRestFanObject {
-    id: string;
+    fanName: string;
+    slotId: number;
     currentReading: number;
     unit: Unit;
     statusState: State;
     statusHealth: Health;
+    location: string;
     lastUpdateTime: number;
 }
 
