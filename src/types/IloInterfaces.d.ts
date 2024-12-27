@@ -1,5 +1,4 @@
-// IPv4 Address
-import { IPv4Address } from 'IpmiInterfaces';
+import { IPv4Address } from './IpmiInterfaces';
 
 // NIC Interface
 export interface Nic {
