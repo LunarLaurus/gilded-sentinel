@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { Routes, Route } from 'react-router-dom';
+import React from 'react';
+import { useParams, Routes, Route } from 'react-router-dom';
 import callEndpointNoArguments from '../../../hooks/useEndpointNoArguments';
 import { AuthenticatedClient } from '../../../types/IloInterfaces';
 import Navbar from '../../../components/navigation/Navbar';
@@ -13,52 +12,50 @@ import NicDetails from './tabs/NicDetails';
 import PowerDetails from './tabs/PowerDetails';
 import ProcessorDetails from './tabs/ProcessorDetails';
 
-const ClientPage: React.FC = () => {
+const IloClientPage: React.FC = () => {
     const { id } = useParams<{ id: string }>();
 
-    const tabs = [
-        { label: 'Back', path: '/ipmi/ilo/' },
-        { label: 'Client Details', path: `/ipmi/ilo/client/${id}/` },
-        { label: 'Bios', path: `/ipmi/ilo/client/${id}/bios` },
-        { label: 'Fans', path: `/ipmi/ilo/client/${id}/fan` },
-        { label: 'License', path: `/ipmi/ilo/client/${id}/license` },
-        { label: 'Memory', path: `/ipmi/ilo/client/${id}/memory` },
-        { label: 'Network', path: `/ipmi/ilo/client/${id}/network` },
-        { label: 'Power', path: `/ipmi/ilo/client/${id}/power` },
-        { label: 'Processor', path: `/ipmi/ilo/client/${id}/cpu` },
+    // Tab and route configuration
+    const routes = [
+        { label: 'Client Details', path: '', component: ClientDetails },
+        { label: 'Bios', path: 'bios', component: BiosDetails },
+        { label: 'Thermal', path: 'thermal', component: FanDetails },
+        { label: 'License', path: 'license', component: LicenseDetails },
+        { label: 'Memory', path: 'memory', component: MemoryDetails },
+        { label: 'Network', path: 'network', component: NicDetails },
+        { label: 'Power', path: 'power', component: PowerDetails },
+        { label: 'Processor', path: 'cpu', component: ProcessorDetails },
     ];
 
     const { data: authenticatedClient, loading: loadingAuthenticated } = callEndpointNoArguments<AuthenticatedClient>(`ilo/${id}/authenticated`);
-    const [client, setClient] = useState<AuthenticatedClient>();
 
-    useEffect(() => {
-        if (authenticatedClient) {
-            setClient(authenticatedClient);
-        }
-    }, [authenticatedClient]);
-
-    if (loadingAuthenticated || !client) {
+    if (loadingAuthenticated || !authenticatedClient) {
         return <div>Loading client...</div>;
     }
 
     return (
         <div className="client-page-container">
-            <Navbar tabs={tabs} showBackButton={false} />
+            <Navbar
+                tabs={[
+                    { label: 'Back to Client List', path: '/ipmi/ilo/' },
+                    ...routes.map((route) => ({
+                        label: route.label,
+                        path: `/ipmi/ilo/client/${id}/${route.path}`,
+                    })),
+                ]}
+                showBackButton={false}
+            />
             <Routes>
-                {/* Default route */}
-                <Route path="/" element={<ClientDetails client={client} />} />
-
-                {/* Sub-routes */}
-                <Route path="bios" element={<BiosDetails client={client} />} />
-                <Route path="fan" element={<FanDetails client={client} />} />
-                <Route path="license" element={<LicenseDetails client={client} />} />
-                <Route path="memory" element={<MemoryDetails client={client} />} />
-                <Route path="network" element={<NicDetails client={client} />} />
-                <Route path="power" element={<PowerDetails client={client} />} />
-                <Route path="cpu" element={<ProcessorDetails client={client} />} />
+                {routes.map((route, index) => (
+                    <Route
+                        key={index}
+                        path={route.path}
+                        element={<route.component client={authenticatedClient} />}
+                    />
+                ))}
             </Routes>
         </div>
     );
 };
 
-export default ClientPage;
+export default IloClientPage;
