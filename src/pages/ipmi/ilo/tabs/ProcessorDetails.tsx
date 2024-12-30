@@ -1,4 +1,5 @@
 import React from 'react';
+import '../../../../styles/ilo/IloGenericStyling.css';
 import { AuthenticatedClient } from '../../../../types/IloInterfaces';
 
 interface Props {
@@ -6,11 +7,15 @@ interface Props {
 }
 
 const ProcessorDetails: React.FC<Props> = ({ client }) => (
-    <div>
-        <h2>CPU Data</h2>
-        <p>CPU Count: {client.cpuData.count}</p>
-        <p>CPU Model: {client.cpuData.model}</p>
-        <p>CPU Health: {client.cpuData.status}</p>
+    <div className="generic-ilo-container">
+        <div className="generic-ilo-card">
+            <h2>Processor Details</h2>
+            <p>
+                <strong>CPU Count:</strong> {client.cpuData.count || 'N/A'}<br />
+                <strong>CPU Model:</strong> {client.cpuData.model || 'N/A'}<br />
+                <strong>CPU Health:</strong> {client.cpuData.status || 'N/A'}
+            </p>
+        </div>
     </div>
 );
 

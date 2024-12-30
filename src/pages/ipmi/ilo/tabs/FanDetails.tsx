@@ -1,60 +1,88 @@
 import React from 'react';
 import { AuthenticatedClient } from '../../../../types/IloInterfaces';
 import IloFanSettingsCard from '../../../../components/subcomponent/ipmi/ilo/IloFanSettingsCard';
+import InfoGrid from '../../../../components/primary/table/InfoGrid';
+import '../../../../styles/ilo/IloGenericStyling.css';
 
 interface Props {
     client: AuthenticatedClient;
 }
 
-const FanDetails: React.FC<Props> = ({ client }) => (
-    <div>
-        <h2>Fans</h2>
-        {client.fans.length > 0 ? (
-            client.fans.map((fan, index) => (
-                <p key={index++}>
-                    {fan.fanName}: {fan.currentReading} {fan.unit} [{fan.statusHealth}/{fan.statusState}]
-                </p>
-            ))
-        ) : (
-            <p>No Fans available</p>
-        )}
-        <IloFanSettingsCard
-                            key={client.serverId}
-                            ip={client.iloAddress}
-                            model={client.serverModel}
-                            serial={client.serialNumber}
-                            iloUuid={client.iloUuid}
-        />
-        <h2>Temperature</h2>
-        <div className="ipmi-management-clients-grid">
-                {client.thermalSensors
-                    .slice()
-                    .sort((a, b) => a.name.localeCompare(b.name))
-                    .map((sensor) => (
-                        <div
-                            key={sensor.number + '-' + sensor.name}
-                            className="ipmi-management-client-card"
-                        >
-                            <h3>{sensor.name}</h3>
-                            <p>
-                                Location:<br />
-                                    X: {sensor.locationXmm}<br />
-                                    Y: {sensor.locationYmm}<br />
-                                <br />                                
-                                physicalContext: {sensor.physicalContext}<br />
-                                currentReading: {sensor.currentReading}<br />
-                                readingCelsius: {sensor.readingCelsius}<br />
-                                upperThresholdCritical: {sensor.upperThresholdCritical}<br />
-                                upperThresholdFatal: {sensor.upperThresholdFatal}<br />
-                                upperThresholdUser: {sensor.upperThresholdUser}<br />
-                                Health: {sensor.health}<br />
-                                State: {sensor.state}<br />
-                                Unit: {sensor.unit}<br />
-                            </p>
-                        </div>
-                    ))}
-            </div>
-    </div>
-);
+const FanDetails: React.FC<Props> = ({ client }) => {
+    const sortedThermalSensors = client.thermalSensors.slice().sort((a, b) => a.name.localeCompare(b.name));
+
+    return (
+        <div>
+            <IloFanSettingsCard
+                key={client.serverId}
+                ip={client.iloAddress}
+                model={client.serverModel}
+                serial={client.serialNumber}
+                iloUuid={client.iloUuid}
+            />
+
+            {/* Fans Section */}
+            <InfoGrid
+                data={client.fans}
+                title="Fans"
+                sections={[
+                    {
+                        title: 'Details',
+                        fieldsToDisplay: ['currentReading', 'unit', 'statusHealth', 'statusState'],
+                        fieldNameOverrides: {
+                            statusState: 'State',
+                            statusHealth: 'Health',
+                        },
+                    },
+                ]}
+                getItemTitle={(fan) => fan.fanName}
+                noDataMessage="No Fans available"
+            />
+
+            {/* Temperature Sensors Section */}
+            <InfoGrid
+                data={sortedThermalSensors}
+                title="Temperature Sensors"
+                sections={[
+                    {
+                        title: 'Location',
+                        fieldsToDisplay: ['locationXmm', 'locationYmm'],
+                        fieldNameOverrides: {
+                            locationXmm: 'X',
+                            locationYmm: 'Y',
+                        },
+                    },
+                    {
+                        title: 'Information',
+                        fieldsToDisplay: [
+                            'currentReading',
+                            'readingCelsius',
+                            'physicalContext',
+                            'upperThresholdCritical',
+                            'upperThresholdFatal',
+                            'upperThresholdUser',
+                            'health',
+                            'state',
+                            'unit',
+                        ],
+                        fieldNameOverrides: {
+                            dimmId: 'Dimm Slot',
+                            processorId: 'Processor',
+                        },
+                        fieldDecorators: {
+                            currentReading: { suffix: 'of Unit' },
+                            readingCelsius: { suffix: 'C' },
+                            upperThresholdCritical: { suffix: 'C' },
+                            upperThresholdFatal: { suffix: 'C' },
+                            upperThresholdUser: { suffix: 'C' },
+                        },
+                    },
+                ]}
+                getItemTitle={(sensor) => sensor.name}
+                noDataMessage="No Temperature Sensors available"
+            />
+        </div>
+    );
+};
 
 export default FanDetails;

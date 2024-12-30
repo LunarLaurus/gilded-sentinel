@@ -212,13 +212,24 @@ export interface IloPowerObject {
     supplies: IloPowerSupplyObject[];
     lastUpdateTime: number;
 }
-
 export interface IloPowerSupplyObject {
-    id: string;
-    status: Health;
-    inputVoltage: number;
+    health: Health;
     powerCapacity: number;
+    pluggedIn: boolean;
+    firmwareVersion: string;
+    lastPowerOutputWatts: number;
+    lineInputVoltage: number;
+    lineInputVoltageType: string;
+    model: string;
+    bayNumber: number;
+    hotplugCapable: boolean;
+    type: string;
+    serialNumber: string;
+    sparePartNumber: string;
+    state: State;
+    lastUpdateTime: number;
 }
+
 
 // License Object
 export interface IloLicenseObject {

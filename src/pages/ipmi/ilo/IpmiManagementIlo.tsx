@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import callEndpointNoArguments from '../../../hooks/useEndpointNoArguments';
 import '../../../styles/ilo/IpmiManagementIlo.css';
 import Navbar from '../../../components/navigation/Navbar';
+import InfoGrid from '../../../components/primary/table/InfoGrid';
 import { UnauthenticatedClient } from '../../../types/IloInterfaces';
 
 const IpmiManagementIlo: React.FC = () => {
@@ -29,39 +30,45 @@ const IpmiManagementIlo: React.FC = () => {
         navigate(`/ipmi/ilo/client/${clientId}`);
     };
 
+    const sections = [
+        {
+            title: 'Client Information',
+            clickable: false,
+            fieldsToDisplay: [
+                'iloAddress',
+                'serialNumber',
+                'serverId',
+                'serverUuid',
+                'productId',
+                'iloVersion',
+                'iloUuid',
+                'nics',
+                'healthStatus',
+                'lastUpdateTime',
+            ],
+            fieldNameOverrides: {
+                lastUpdateTime: 'Last Seen',
+                healthStatus: 'Health',
+            },
+            fieldDecorators: {
+                nics: { suffix: ' found' },
+            },
+        },
+    ];
+
     return (
         <div className="ipmi-management-container">
             <h1>Integrated Lights Out - Overview</h1>
             <Navbar tabs={tabs} />
-            <div className="ipmi-management-clients-grid">
-                {clients
-                    .slice()
-                    .sort((a, b) => a.serialNumber.localeCompare(b.serialNumber))
-                    .map((client) => (
-                        <div
-                            key={client.serverId}
-                            className="ipmi-management-client-card"
-                            onClick={() => handleClientClick(client.iloUuid)}
-                        >
-                            <h3>{client.serverModel}</h3>
-                            <p>
-                                Address: {client.iloAddress.address || 'N/A'} <br />
-                                Health Status: {client.healthStatus} <br />
-                                {client.nics?.length > 0
-                                    ? `${client.nics.length} NICs available`
-                                    : 'No NICs available'} <br />
-                                Serial Number: {client.serialNumber} <br />
-                                Server UUID: {client.serverUuid} <br />
-                                Product ID: {client.productId} <br />
-                                ILO UUID: {client.iloUuid} <br />
-                                Last Update Time: {new Date(client.lastUpdateTime).toLocaleString()} <br />
-                                Time Between Updates: {client.timeBetweenUpdates} seconds
-                            </p>
-
-                        </div>
-
-                    ))}
-            </div>
+            <InfoGrid
+                data={clients.sort((a, b) => a.iloAddress.address.localeCompare(b.iloAddress.address))}
+                title="Unauthenticated Clients"
+                clickable={false}
+                onClick={(client) => handleClientClick(client.iloUuid)}
+                sections={sections}
+                getItemTitle={(client) => client.serverModel || 'Unknown Model'}
+                noDataMessage="No clients available."
+            />
         </div>
     );
 };

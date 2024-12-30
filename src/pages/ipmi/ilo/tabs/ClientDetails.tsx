@@ -7,18 +7,25 @@ interface Props {
 
 const ClientDetails: React.FC<Props> = ({ client }) => (
     <div className="auth-client-tile">
-        <p>ILO Address: {client.iloAddress.address}</p>
-        <p>ILO UUID: {client.iloUuid}</p>
-        <p>Serial Number: {client.serialNumber}</p>
-        <p>Server Model: {client.serverModel}</p>
-        <p>Server ID: {client.serverId}</p>
-        <p>Server UUID: {client.serverUuid}</p>
-        <p>Product ID: {client.productId}</p>
-        <p>ILO Text: {client.iloText}</p>
-        <p>ILO Version: {client.iloVersion}</p>
-        <p>ILO Firmware Build Date: {client.iloFwBuildDate}</p>
-        <p>ILO Serial Number: {client.iloSerialNumber}</p>
-        <p>Health Status: {client.healthStatus}</p>
+        <p>
+            <strong>ILO Information</strong><br />
+            Address: {client.iloAddress.address} <br />
+            UUID: {client.iloUuid} <br />
+            Serial Number: {client.iloSerialNumber} <br />
+            Text: {client.iloText} <br />
+            Version: {client.iloVersion} <br />
+            <br />
+            <strong>Server Information</strong><br />
+            Model: {client.serverModel} <br />
+            UUID: {client.serverUuid} <br />
+            Serial Number: {client.serialNumber} <br />
+            ID: {client.serverId} <br />
+            Product ID: {client.productId} <br />
+            <br />
+            <strong>General Information</strong><br />
+            Health Status: {client.healthStatus} <br />
+        </p>
+
     </div>
 );
 

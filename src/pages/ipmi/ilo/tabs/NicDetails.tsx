@@ -1,29 +1,36 @@
 import React from 'react';
+import '../../../../styles/ilo/IloGenericStyling.css';
+import InfoGrid from '../../../../components/primary/table/InfoGrid';
 import { AuthenticatedClient } from '../../../../types/IloInterfaces';
 
 interface Props {
     client: AuthenticatedClient;
 }
 
-const NicDetails: React.FC<Props> = ({ client }) => (
-    <div>
-        <h2>NIC Details</h2>
-        {client && client.nics?.length > 0 ? (
-            client.nics.map((nic, index) => (
-                <div key={index} style={{ marginBottom: '20px' }}>
-                    <h3>NIC {index + 1}</h3>
-                    <p>Port: {nic.port}</p>
-                    <p>Description: {nic.description}</p>
-                    <p>Location: {nic.location}</p>
-                    <p>MAC Address: {nic.mac}</p>
-                    <p>IP Address: {nic.ip?.address || 'N/A'}</p>
-                    <p>Status: {nic.status}</p>
-                </div>
-            ))
-        ) : (
-            <p>No NICs available</p>
-        )}
-    </div>
-);
+const NicDetails: React.FC<Props> = ({ client }) => {
+    const sections = [
+        {
+            title: 'Information',
+            fieldsToDisplay: ['port', 'description', 'location', 'mac', 'ip.address', 'status'],
+            fieldNameOverrides: {
+                'ip.address': 'IP Address',
+                mac: 'MAC Address',
+            },
+        },
+    ];
+
+    return (
+        <div className="generic-ilo-container">
+            <InfoGrid
+                data={client.nics || []}
+                title="NIC Details"
+                clickable={false}
+                sections={sections}
+                getItemTitle={(nic) => `NIC ${client.nics.indexOf(nic) + 1}`}
+                noDataMessage="No NICs available"
+            />
+        </div>
+    );
+};
 
 export default NicDetails;

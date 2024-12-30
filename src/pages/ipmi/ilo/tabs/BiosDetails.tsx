@@ -1,50 +1,40 @@
 import React from 'react';
+import '../../../../styles/ilo/IloGenericStyling.css';
 import { AuthenticatedClient } from '../../../../types/IloInterfaces';
 
 interface Props {
     client: AuthenticatedClient;
 }
 
+/* Reusable Card Component */
+const BiosCard: React.FC<{ title: string; details: { date: string; family: string } }> = ({ title, details }) => (
+    <div className="generic-ilo-card">
+        <h2>{title}</h2>
+        <p>
+            Date: {details.date}<br />
+            Family: {details.family}<br />
+        </p>
+    </div>
+);
+
 const BiosDetails: React.FC<Props> = ({ client }) => {
-    const hasBootBlock = client.bios.bootBlock !== null;
-    const validBootBlock = hasBootBlock 
-        && client.bios.bootBlock.version !== null 
-        && client.bios.bootBlock.version.length > 0;
+    const { current, backup, bootBlock } = client.bios;
+    const validBootBlock = bootBlock?.version?.length > 0;
 
     return (
-        <div className="ipmi-management-clients-grid">
-            <div
-                key={client.bios.current.version}
-                className="ipmi-management-client-card"
-            >
-                <h3>Current</h3>
-                <p>
-                    Date: {client.bios.current.date}<br />
-                    Family: {client.bios.current.family}<br />
-                </p>
+        <div className="generic-ilo-container">
+            <div className="generic-ilo-grid">
+                {/* Current BIOS Details */}
+                <BiosCard title="Current" details={current} />
+
+                {/* Backup BIOS Details */}
+                <BiosCard title="Backup" details={backup} />
+
+                {/* Boot Block Details (Conditional Rendering) */}
+                {validBootBlock && (
+                    <BiosCard title="Boot Block" details={bootBlock!} />
+                )}
             </div>
-            <div
-                key={client.bios.backup.version}
-                className="ipmi-management-client-card"
-            >
-                <h3>Backup</h3>
-                <p>
-                    Date: {client.bios.backup.date}<br />
-                    Family: {client.bios.backup.family}<br />
-                </p>
-            </div>
-            {validBootBlock && (
-                <div
-                    key={client.bios.bootBlock.version}
-                    className="ipmi-management-client-card"
-                >
-                    <h3>Boot Block</h3>
-                    <p>
-                        Date: {client.bios.bootBlock.date}<br />
-                        Family: {client.bios.bootBlock.family}<br />
-                    </p>
-                </div>
-            )}
         </div>
     );
 };

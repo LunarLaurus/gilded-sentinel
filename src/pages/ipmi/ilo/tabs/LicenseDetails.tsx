@@ -1,16 +1,21 @@
 import React from 'react';
+import '../../../../styles/ilo/IloGenericStyling.css';
 import { AuthenticatedClient } from '../../../../types/IloInterfaces';
 
 interface Props {
-    client?: AuthenticatedClient;
+    client: AuthenticatedClient;
 }
 
 const LicenseDetails: React.FC<Props> = ({ client }) => (
-    <div>
-        <h2>License</h2>
-        <p>License: {client?.license?.license || 'N/A'}</p>
-        <p>License Key: {client?.license?.licenseKey || 'N/A'}</p>
-        <p>License Type: {client?.license?.licenseType || 'N/A'}</p>
+    <div className="generic-ilo-container">
+        <div className="generic-ilo-card">
+            <h2>License Details</h2>
+            <p>
+                <strong>License:</strong> {client.license.license || 'N/A'}<br />
+                <strong>License Key:</strong> {client.license.licenseKey || 'N/A'}<br />
+                <strong>License Type:</strong> {client.license.licenseType || 'N/A'}
+            </p>
+        </div>
     </div>
 );
 
