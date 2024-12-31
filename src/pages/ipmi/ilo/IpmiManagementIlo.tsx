@@ -5,6 +5,7 @@ import '../../../styles/ilo/IpmiManagementIlo.css';
 import Navbar from '../../../components/navigation/Navbar';
 import InfoGrid from '../../../components/primary/table/InfoGrid';
 import { UnauthenticatedClient } from '../../../types/IloInterfaces';
+import { getIloVersion, getLastOnlineFlag } from '../../../utils/IloUtils';
 
 const IpmiManagementIlo: React.FC = () => {
     const navigate = useNavigate();
@@ -18,7 +19,16 @@ const IpmiManagementIlo: React.FC = () => {
 
     useEffect(() => {
         if (unauthenticatedClients) {
-            setClients(unauthenticatedClients);
+
+            const processedClients = unauthenticatedClients.map((client) => {
+                return {
+                    ...client,
+                    iloSeries: getIloVersion(client.iloText),
+                    lastOnlineFlag: getLastOnlineFlag(client.lastUpdateTime),
+                };
+            });
+
+            setClients(processedClients);
         }
     }, [unauthenticatedClients]);
 
@@ -27,7 +37,7 @@ const IpmiManagementIlo: React.FC = () => {
     }
 
     const handleClientClick = (clientId: string) => {
-        navigate(`/ipmi/ilo/client/${clientId}`);
+        navigate(`/ipmi/ilo/client/${clientId}/detail`);
     };
 
     const sections = [
@@ -36,6 +46,7 @@ const IpmiManagementIlo: React.FC = () => {
             clickable: false,
             fieldsToDisplay: [
                 'iloAddress',
+                'iloSeries',
                 'serialNumber',
                 'serverId',
                 'serverUuid',
@@ -45,24 +56,29 @@ const IpmiManagementIlo: React.FC = () => {
                 'nics',
                 'healthStatus',
                 'lastUpdateTime',
+                'lastOnlineFlag',
             ],
             fieldNameOverrides: {
                 lastUpdateTime: 'Last Seen',
+                lastOnlineFlag: 'Last Online',
                 healthStatus: 'Health',
             },
             fieldDecorators: {
                 nics: { suffix: ' found' },
+            },
+            fieldTypeMap: {
+                lastUpdateTime: (value: string | number | Date) => `${new Date(value).toLocaleString()}`,
             },
         },
     ];
 
     return (
         <div className="ipmi-management-container">
-            <h1>Integrated Lights Out - Overview</h1>
+            <h1>Integrated Lights Out Clients</h1>
             <Navbar tabs={tabs} />
             <InfoGrid
                 data={clients.sort((a, b) => a.iloAddress.address.localeCompare(b.iloAddress.address))}
-                title="Unauthenticated Clients"
+                title=""
                 clickable={false}
                 onClick={(client) => handleClientClick(client.iloUuid)}
                 sections={sections}

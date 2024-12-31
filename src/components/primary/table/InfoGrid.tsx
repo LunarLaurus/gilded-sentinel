@@ -1,13 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import InfoTable from './InfoTable';
+import '../../../styles/InfoGrid.css';
+
+interface FieldDecorator {
+    prefix?: string;
+    suffix?: string;
+}
 
 interface SectionConfig {
     title: string;
     clickable?: boolean; // Toggle visibility of grid
     defaultVisible?: boolean;
+    customFieldData?: Record<string, any>;
     fieldsToDisplay: string[];
+    fieldTypeMap?: Record<string, (value: any) => React.ReactNode>;
     fieldNameOverrides?: Record<string, string>;
-    fieldDecorators?: Record<string, { prefix?: string; suffix?: string }>;
+    fieldDecorators?: Record<string, FieldDecorator>;
 }
 
 interface InfoGridProps {
@@ -33,39 +41,58 @@ const InfoGrid: React.FC<InfoGridProps> = ({
 }) => {
     const [showAll, setShowAll] = useState(clickable ? defaultVisible : true);
 
+    const mergedSections = useMemo(() => {
+        return data.map((item) =>
+            sections.map((section) => ({
+                ...section,
+                mergedData: { ...item, ...section.customFieldData }, // Merge custom data into each section
+            }))
+        );
+    }, [data, sections]);
+
     return (
-        <div className="generic-info-grid">
-            <h2 onClick={() => clickable && setShowAll(!showAll)} style={{ cursor: clickable ? 'pointer' : 'default' }}>
+        <div className="info-grid-container">
+            <h2
+                onClick={() => clickable && setShowAll(!showAll)}
+                style={{ cursor: clickable ? 'pointer' : 'default' }}
+            >
                 {title} {clickable ? (showAll ? '▼' : '▶') : ''}
             </h2>
             {showAll && (
-                <div className="generic-ilo-grid">
+                <div className="info-grid">
                     {data.length > 0 ? (
-                        data.map((item, index) => (
-                            <div
-                                key={`${index}-${getItemTitle(item)}`}
-                                className="generic-ilo-card"
-                                onClick={() => onClick?.(item)} // Trigger onClick if provided
-                                style={{ cursor: onClick ? 'pointer' : 'default' }} // Change cursor if onClick exists
-                            >
-                                <h2>{getItemTitle(item)}</h2>
-                                {sections.map((section, sectionIndex) => (
-                                    <InfoTable
-                                        key={`${index}-${sectionIndex}-${section.title}`}
-                                        data={item}
-                                        title={section.title}
-                                        showArrow={sections.length === 1 ? false : true}
-                                        clickable={sections.length === 1 ? false : section.clickable}
-                                        defaultVisible={sections.length === 1 ? true : section.defaultVisible}
-                                        fieldsToDisplay={section.fieldsToDisplay}
-                                        fieldNameOverrides={section.fieldNameOverrides}
-                                        fieldDecorators={section.fieldDecorators}
-                                    />
-                                ))}
-                            </div>
-                        ))
+                        mergedSections.map((mergedSectionData, itemIndex) => {
+                            const item = data[itemIndex];
+                            const itemTitle = getItemTitle(item);
+
+                            return (
+                                <div
+                                    key={`${itemIndex}-${itemTitle}`}
+                                    className="info-grid-card"
+                                    onClick={() => onClick?.(item)}
+                                    style={{ cursor: onClick ? 'pointer' : 'default' }}
+                                >
+                                    <h3>{itemTitle}</h3>
+                                    {mergedSectionData.map((section, sectionIndex) => (
+                                        <InfoTable
+                                            key={`${itemIndex}-${sectionIndex}-${section.title}`}
+                                            data={section.mergedData} // Use merged data
+                                            title={section.title}
+                                            showArrow={sections.length === 1 ? false : true}
+                                            clickable={sections.length === 1 ? false : section.clickable}
+                                            defaultVisible={sections.length === 1 ? true : section.defaultVisible}
+                                            customFieldData={undefined} // Already merged into `mergedData`
+                                            fieldsToDisplay={section.fieldsToDisplay}
+                                            fieldNameOverrides={section.fieldNameOverrides}
+                                            fieldDecorators={section.fieldDecorators}
+                                            fieldTypeMap={section.fieldTypeMap}
+                                        />
+                                    ))}
+                                </div>
+                            );
+                        })
                     ) : (
-                        <p>{noDataMessage}</p>
+                        <h3 style={{ textAlign: 'center' }}>{noDataMessage}</h3>
                     )}
                 </div>
             )}

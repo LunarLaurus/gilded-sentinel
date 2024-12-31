@@ -30,8 +30,6 @@ const IloFanManagementPage: React.FC = () => {
                     <IloFanSettingsCard
                         key={client.serverId}
                         ip={client.iloAddress}
-                        model={client.serverModel}
-                        serial={client.serialNumber}
                         iloUuid={client.iloUuid}
                     />
                 ))}

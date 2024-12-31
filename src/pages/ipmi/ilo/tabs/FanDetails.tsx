@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import { AuthenticatedClient } from '../../../../types/IloInterfaces';
 import IloFanSettingsCard from '../../../../components/subcomponent/ipmi/ilo/IloFanSettingsCard';
 import InfoGrid from '../../../../components/primary/table/InfoGrid';
@@ -8,21 +8,28 @@ interface Props {
     client: AuthenticatedClient;
 }
 
-const FanDetails: React.FC<Props> = ({ client }) => {
-    const sortedThermalSensors = client.thermalSensors.slice().sort((a, b) => a.name.localeCompare(b.name));
+const FanDetails: React.FC<Props> = ({ client: initialClient }) => {
+    const [client] = useState<AuthenticatedClient>(initialClient);
+    const fixedKeyBase = useRef(initialClient.iloUuid).current;
+
+    console.log("FanDetails component rendered");
+
+    if (!client) {
+        console.log("Client data not available yet");
+        return <div>Loading client...</div>;
+    }
 
     return (
         <div>
             <IloFanSettingsCard
-                key={client.serverId}
+                key={`${fixedKeyBase}-FanCard`}
                 ip={client.iloAddress}
-                model={client.serverModel}
-                serial={client.serialNumber}
                 iloUuid={client.iloUuid}
             />
 
             {/* Fans Section */}
             <InfoGrid
+                key={`${fixedKeyBase}-FanInfo`}
                 data={client.fans}
                 title="Fans"
                 sections={[
@@ -41,7 +48,8 @@ const FanDetails: React.FC<Props> = ({ client }) => {
 
             {/* Temperature Sensors Section */}
             <InfoGrid
-                data={sortedThermalSensors}
+                key={`${fixedKeyBase}-TempSensors`}
+                data={client.thermalSensors}
                 title="Temperature Sensors"
                 sections={[
                     {

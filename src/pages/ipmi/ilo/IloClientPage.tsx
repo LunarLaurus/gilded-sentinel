@@ -17,7 +17,7 @@ const IloClientPage: React.FC = () => {
 
     // Tab and route configuration
     const routes = [
-        { label: 'Client Details', path: '', component: ClientDetails },
+        { label: 'Client Details', path: 'detail', component: ClientDetails },
         { label: 'Bios', path: 'bios', component: BiosDetails },
         { label: 'Thermal', path: 'thermal', component: FanDetails },
         { label: 'License', path: 'license', component: LicenseDetails },
@@ -37,10 +37,11 @@ const IloClientPage: React.FC = () => {
         <div className="client-page-container">
             <Navbar
                 tabs={[
-                    { label: 'Back to Client List', path: '/ipmi/ilo/' },
+                    { label: 'Back to Client List', path: '/ipmi/ilo',
+                    fakeBackButton: true },
                     ...routes.map((route) => ({
                         label: route.label,
-                        path: `/ipmi/ilo/client/${id}/${route.path}`,
+                        path: `/ipmi/ilo/client/${id}/${route.path}`
                     })),
                 ]}
                 showBackButton={false}

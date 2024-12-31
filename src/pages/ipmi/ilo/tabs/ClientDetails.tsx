@@ -1,5 +1,6 @@
 import React from 'react';
 import { AuthenticatedClient } from '../../../../types/IloInterfaces';
+import { getIloVersion } from '../../../../utils/IloUtils';
 
 interface Props {
     client: AuthenticatedClient;
@@ -8,7 +9,7 @@ interface Props {
 const ClientDetails: React.FC<Props> = ({ client }) => (
     <div className="auth-client-tile">
         <p>
-            <strong>ILO Information</strong><br />
+            <strong>ILO Information [{getIloVersion(client.iloText)}]</strong><br />
             Address: {client.iloAddress.address} <br />
             UUID: {client.iloUuid} <br />
             Serial Number: {client.iloSerialNumber} <br />

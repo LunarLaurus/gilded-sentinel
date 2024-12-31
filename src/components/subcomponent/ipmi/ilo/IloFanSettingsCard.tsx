@@ -1,33 +1,42 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import ToastNotification from '../../../message/toast/ToastNotification';
+import callEndpointNoArguments from '../../../../hooks/useEndpointNoArguments';
 import { API_URL } from '../../../../App';
 import { IPv4Address } from '../../../../types/IpmiInterfaces';
 import '../../../../styles/ilo/IloFanSettingsCard.css';
+import { AuthenticatedClient, IloRestFanObject } from '../../../../types/IloInterfaces';
 
 interface IloFanSettingsCardProps {
     ip: IPv4Address;
-    model: string;
-    serial: string;
     iloUuid: string;
 }
 
-const IloFanSettingsCard: React.FC<IloFanSettingsCardProps> = ({ ip, model, serial, iloUuid }) => {
+const IloFanSettingsCard: React.FC<IloFanSettingsCardProps> = ({ ip, iloUuid }) => {
+    const MAX_FAN_SPEED = 100;
+    const MIN_FAN_SPEED = 1;
+    const SAFE_DEFAULT_FAN_SPEED = 30;
     const [fanSpeedSettings, setFanSpeedSettings] = useState({
-        selectedOption: 'MIN',
-        customFanSpeed: 10,
+        selectedOption: 'SAFE' as 'MIN' | 'SAFE' | 'MAX' | 'CUSTOM',
+        customFanSpeed: 20,
     });
     const [toastMessage, setToastMessage] = useState<string | null>(null);
+    const [toggleMinMaxState, setToggleState] = useState<boolean>(false);
+    const { data: authenticatedClient, loading: loadingAuthenticated } = callEndpointNoArguments<AuthenticatedClient>(`ilo/${iloUuid}/authenticated`);
+    const [loadingUpdate, setLoadingUpdate] = useState(false);
 
-    useEffect(() => {
-        setFanSpeedSettings({ selectedOption: 'MIN', customFanSpeed: 10 });
-    }, [ip, model, serial, iloUuid]);
+    if (loadingAuthenticated || !authenticatedClient) {
+        return <div>Loading client...</div>;
+    }
 
     const updateFanSpeeds = async (fanSpeed: number) => {
+        setLoadingUpdate(true);
         try {
+            const type = toggleMinMaxState === false ? 'MIN' : 'MAX';
+            setToastMessage('Attempting to update all ' + type + ' fans to ' + fanSpeed + '%');
             const { status } = await axios.post(`${API_URL}/ilo/updateFanSpeeds`, {
                 iloClientAddress: ip.address,
-                updateType: 'BOTH',
+                updateType: type,
                 targetFanSpeed: fanSpeed,
             });
             setToastMessage(
@@ -37,64 +46,107 @@ const IloFanSettingsCard: React.FC<IloFanSettingsCardProps> = ({ ip, model, seri
             console.error('Error updating fan speeds:', error);
             setToastMessage('Error updating fan speeds.');
         }
+        setLoadingUpdate(false);
     };
 
-    const handleDropdownChange = (value: 'MIN' | 'MAX' | 'CUSTOM') => {
+    const handleDropdownChange = (value: 'MIN' | 'SAFE' | 'MAX' | 'CUSTOM') => {
         setFanSpeedSettings((prev) => ({ ...prev, selectedOption: value }));
     };
 
     const handleCustomFanSpeedChange = (value: number) => {
         setFanSpeedSettings((prev) => ({
             ...prev,
-            customFanSpeed: Math.max(5, Math.min(100, value)),
+            customFanSpeed: Math.max(MIN_FAN_SPEED, Math.min(MAX_FAN_SPEED, value)),
         }));
     };
 
     const handleUpdateClick = () => {
-        const fanSpeed =
-            fanSpeedSettings.selectedOption === 'CUSTOM'
-                ? fanSpeedSettings.customFanSpeed
-                : fanSpeedSettings.selectedOption === 'MIN'
-                ? 10
-                : 100;
-        updateFanSpeeds(fanSpeed);
+        var newFanSpeed = SAFE_DEFAULT_FAN_SPEED;
+        if (fanSpeedSettings.selectedOption === 'CUSTOM') {
+            newFanSpeed = fanSpeedSettings.customFanSpeed;
+        }
+        else if (fanSpeedSettings.selectedOption === 'MIN') {
+            newFanSpeed = MIN_FAN_SPEED;
+        }
+        else if (fanSpeedSettings.selectedOption === 'MAX') {
+            newFanSpeed = MAX_FAN_SPEED;
+        }
+        else {
+            newFanSpeed = SAFE_DEFAULT_FAN_SPEED;
+        }
+        updateFanSpeeds(newFanSpeed);
     };
+
+    const getFanDataString = (fan: IloRestFanObject) => {
+        return 'Fan ' + fan.slotId + ': ' + fan.currentReading + (fan.unit.toLowerCase() === 'percent' ? '%' : 'RPM') + ' [' + fan.statusState + ' / ' + fan.statusHealth + ']';
+    }
 
     return (
         <div className="fan-settings-card">
-            <h3>{iloUuid}</h3>
-            <p>
-                {model}<br />
-                Serial Number: {serial}<br />
+            <h3>{authenticatedClient.iloUuid}</h3>
+            <h4>{authenticatedClient.iloAddress.address}</h4>
+            <p style={{ textAlign: 'center' }}>
+                {authenticatedClient.fans.map((fan, index) => (
+                    <React.Fragment key={index}>
+                        <span>{getFanDataString(fan)}
+                            <br /></span>
+                    </React.Fragment>
+                ))}
             </p>
+            <h4>Update Configuration</h4>
             <select
+                id="fan-speed-select"
+                className="fan-settings-dropdown"
                 value={fanSpeedSettings.selectedOption}
                 onChange={(e) =>
-                    handleDropdownChange(e.target.value as 'MIN' | 'MAX' | 'CUSTOM')
+                    handleDropdownChange(e.target.value as 'MIN' | 'SAFE' | 'MAX' | 'CUSTOM')
                 }
             >
-                <option value="MIN">Minimum (10)</option>
-                <option value="MAX">Maximum (100)</option>
-                <option value="CUSTOM">Custom</option>
+                <option value="MIN">Min ({MIN_FAN_SPEED}%)</option>
+                <option value="SAFE">Safe ({SAFE_DEFAULT_FAN_SPEED}%)</option>
+                <option value="MAX">Max ({MAX_FAN_SPEED}%)</option>
+                <option value="CUSTOM">User</option>
             </select>
-            {fanSpeedSettings.selectedOption === 'CUSTOM' ? (
-                <input
-                    type="number"
-                    value={fanSpeedSettings.customFanSpeed}
-                    onChange={(e) => handleCustomFanSpeedChange(parseInt(e.target.value) || 5)}
-                />
-            ) : (
-                <input
-                    type="number"
-                    value=""
-                    readOnly
-                    disabled
+            <button
+                className="fan-settings-btn"
+                onClick={() =>
+                    toggleMinMaxState === false ? setToggleState(true) : setToggleState(false)
+                }
+            >
+                {toggleMinMaxState === false ? 'MIN' : 'MAX'}
+            </button>
+
+            <br />
+            <input
+                id="custom-fan-speed"
+                className="fan-settings-number-field"
+                type="number"
+                value={fanSpeedSettings.customFanSpeed}
+                onChange={(e) =>
+                    fanSpeedSettings.selectedOption === 'CUSTOM'
+                        ? handleCustomFanSpeedChange(parseInt(e.target.value) || MIN_FAN_SPEED)
+                        : null
+                }
+                min={MIN_FAN_SPEED}
+                max={MAX_FAN_SPEED}
+                disabled={fanSpeedSettings.selectedOption !== 'CUSTOM'}
+            />
+            {loadingUpdate && (
+                <div className="fan-settings-spinner">
+                    <div className="fan-settings-spinner-circle"></div>
+                    <span></span>
+                </div>
+            )}
+
+            {!loadingUpdate && <button onClick={handleUpdateClick} className="fan-settings-btn">
+                Update
+            </button>}
+            {toastMessage && (
+                <ToastNotification
+                    message={toastMessage}
+                    onClose={() => setToastMessage(null)}
                 />
             )}
-            <button onClick={handleUpdateClick} className="fan-settings-btn">
-                Update
-            </button>
-            {toastMessage && <ToastNotification message={toastMessage} onClose={() => setToastMessage(null)} />}
         </div>
     );
 };

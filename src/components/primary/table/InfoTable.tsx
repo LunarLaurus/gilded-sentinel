@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import '../../../styles/InfoTable.css';
 
 interface FieldDecorator {
@@ -13,36 +13,34 @@ interface InfoTableProps {
     clickable?: boolean;
     defaultVisible?: boolean;
     showArrow?: boolean;
+    customFieldData?: Record<string, any>; // Additional data to inject
     fieldTypeMap?: Record<string, (value: any) => React.ReactNode>;
     fieldNameOverrides?: Record<string, string>; // Map for overriding field names
     fieldDecorators?: Record<string, FieldDecorator>; // Map for prefix and suffix
 }
 
-const InfoTable: React.FC<InfoTableProps> = ({
+const InfoTable: React.FC<InfoTableProps> = React.memo(({
     data,
     fieldsToDisplay,
     title,
     clickable = true,
     defaultVisible = true,
     showArrow = true,
+    customFieldData = {},
     fieldTypeMap = {},
     fieldNameOverrides = {},
-    fieldDecorators = {}
+    fieldDecorators = {},
 }) => {
-    const [showInfo, setShowInfo] = useState(clickable ? defaultVisible : true); // State to toggle visibility
+    const [showInfo, setShowInfo] = useState(clickable ? defaultVisible : true);
+
+    const combinedData = useMemo(() => ({ ...data, ...customFieldData }), [data, customFieldData]);
 
     const defaultTypeHandler = (value: any): React.ReactNode => {
-        if (typeof value === 'boolean') {
-            return value ? 'Yes' : 'No';
-        } else if (value instanceof Date) {
-            return new Date(value).toLocaleString();
-        } else if (value && typeof value === 'object' && 'address' in value) {
-            return value.address; // Handle objects with `address`
-        } else if (Array.isArray(value)) {
-            return `${value.length}`;
-        } else if (value && typeof value === 'object') {
-            return '[Object]';
-        }
+        if (typeof value === 'boolean') return value ? 'Yes' : 'No';
+        if (value instanceof Date) return new Date(value).toLocaleString();
+        if (value && typeof value === 'object' && 'address' in value) return value.address;
+        if (Array.isArray(value)) return `${value.length}`;
+        if (value && typeof value === 'object') return '[Object]';
         return value?.toString() || 'N/A';
     };
 
@@ -52,29 +50,32 @@ const InfoTable: React.FC<InfoTableProps> = ({
 
     return (
         <div className="info-table-card">
-            {/* Title is clickable and toggles visibility */}
-            <h2 onClick={() => clickable ? setShowInfo(!showInfo) : {}} style={{ cursor: clickable ? 'pointer' : 'default' }}>
-                {title} {clickable && showArrow ? (showInfo ? '▼' : '▶') : ''}
-            </h2>
-            {showInfo && ( // Conditionally render the table
+            <h3
+                onClick={() => clickable && setShowInfo(!showInfo)}
+                style={{ cursor: clickable ? 'pointer' : 'default' }}
+            >
+                {title} {clickable && showArrow && (showInfo ? '▼' : '▶')}
+            </h3>
+            {showInfo && (
                 <table className="info-table">
                     <tbody>
-                        {fieldsToDisplay.map(key => (
+                        {fieldsToDisplay.map((key) => (
                             <tr key={key}>
                                 <th>
                                     <strong>
-                                        {fieldNameOverrides[key] // Use overridden name if available
-                                            ? fieldNameOverrides[key]
-                                            : key
+                                        {fieldNameOverrides[key] ||
+                                            key
                                                 .replace(/([A-Z])/g, ' $1')
-                                                .replace(/^./, str => str.toUpperCase())}
+                                                .replace(/^./, (str) =>
+                                                    str.toUpperCase()
+                                                )}
                                     </strong>
                                 </th>
                                 <td>
                                     {fieldDecorators[key]?.prefix || ''}
                                     {fieldTypeMap[key]
-                                        ? fieldTypeMap[key](data[key]) // Use custom rendering logic if defined
-                                        : defaultTypeHandler(data[key])} {/* Fallback to default */}
+                                        ? fieldTypeMap[key](combinedData[key])
+                                        : defaultTypeHandler(combinedData[key])}
                                     {fieldDecorators[key]?.suffix || ''}
                                 </td>
                             </tr>
@@ -84,6 +85,6 @@ const InfoTable: React.FC<InfoTableProps> = ({
             )}
         </div>
     );
-};
+});
 
 export default InfoTable;
