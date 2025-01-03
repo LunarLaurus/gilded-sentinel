@@ -26,13 +26,16 @@ const IloFanManagementPage: React.FC = () => {
 
         return (
             <div className="fan-settings-grid">
-                {clients.map((client) => (
-                    <IloFanSettingsCard
-                        key={client.serverId}
-                        ip={client.iloAddress}
-                        iloUuid={client.iloUuid}
-                    />
-                ))}
+                {clients
+                    .sort((a, b) => a.iloAddress.address.localeCompare(b.iloAddress.address))
+                    .map((client) => (
+                        <IloFanSettingsCard
+                            key={client.serverId}
+                            ip={client.iloAddress}
+                            iloUuid={client.iloUuid}
+                        />
+                    ))}
+
             </div>
         );
     };

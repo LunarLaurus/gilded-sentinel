@@ -39,7 +39,12 @@ const InfoTable: React.FC<InfoTableProps> = React.memo(({
         if (typeof value === 'boolean') return value ? 'Yes' : 'No';
         if (value instanceof Date) return new Date(value).toLocaleString();
         if (value && typeof value === 'object' && 'address' in value) return value.address;
-        if (Array.isArray(value)) return `${value.length}`;
+        if (Array.isArray(value)) {
+            if (value.every(item => typeof item === 'string')) {
+                return value.join(', ');
+            }
+            return `${value.length}`;
+        }
         if (value && typeof value === 'object') return '[Object]';
         return value?.toString() || 'N/A';
     };

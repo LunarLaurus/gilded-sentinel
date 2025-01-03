@@ -45,15 +45,19 @@ export interface AuthenticatedClient {
     iloVersion: string;
     iloFwBuildDate: string;
     iloSerialNumber: string;
+    serverHostname: string;
     nics: IloNicObject[];
     healthStatus: number;
-    bios: IloBios;
     cpuData: IloProcessorSummary;
     memory: IloMemoryObject;
     fans: IloRestFanObject[];
     thermalSensors: IloTemperatureSensor[];
     powerData: IloPowerObject;
-    license: IloLicenseObject;
+    iloLicense: IloLicenseObject;
+    oemInformation: IloOemInformation;
+    systemType: string;
+    iloBootInformation: IloBootObject;
+	indicatorLed: string;
     lastUpdate: number;
 }
 
@@ -78,6 +82,21 @@ export interface IloFanSpeedUpdateRequestDto {
     targetFanSpeed: number;
 }
 
+export interface IloOemInformation {
+    bios: IloBios;
+    hostOS: IloHostOsObject;
+    powerRegulatorMode: IloPowerRegulatorMode;
+    powerRegulatorModesSupported: IloPowerRegulatorMode[];
+    trustedModules: IloTpmObject;
+    intelligentProvisioningIndex: number;
+    intelligentProvisioningLocation: string;
+    intelligentProvisioningVersion: string;
+    postState: string;
+    powerAllocationLimit: string;
+    powerAutoOn: string;
+    powerOnDelay: string;
+    virtualProfile: string;
+}
 export interface IloBios {
     current: IloBiosObject;
     backup: IloBiosObject;
@@ -88,14 +107,42 @@ export interface IloBiosObject {
     date: string;
     version: string;
     family: string;
+    allocation: string;
 }
-
+export interface IloHostOsObject {
+    osName: string;
+    osSysDescription: string;
+    osVersion: string;
+    osType: number;
+}
 export interface IloProcessorSummary {
     count: number;
     model: string;
     status: Health;
 }
+export interface IloTpmObject {
+    status: string;
+    trustedModules: IloTpm[];
+}
+export interface IloTpm {
+    type: string;
+    status: string;
+}
+export interface IloBootObject {
+    bootSourceOverrideEnabled: boolean;
+    bootSourceOverrideSupported: string[];
+    bootSourceOverrideTarget: string;
+    uefiTargetBootSourceOverride: string;
+    uefiTargetBootSourceOverrideSupported: string[];
+}
 
+export enum IloPowerRegulatorMode {
+    OS_CONTROL = 'OS_CONTROL',
+    DYNAMIC = 'DYNAMIC',
+    MAX = 'MAX',
+    MIN = 'MIN',
+    UNKNOWN = 'UNKNOWN',
+}
 export enum Health {
     OK = 'OK',
     WARNING = 'WARNING',

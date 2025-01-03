@@ -13,10 +13,11 @@
     background-color: #f8f9fa; /* Light neutral background for consistency */
     border: 1px solid #e2c75a; /* Soft golden border */
     border-radius: 8px;
-    padding: 10px;
+    padding: 20px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     max-width: 400px;
-    margin: 10px auto;
+    min-width: 350px;
+    margin: 10px 10px;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 

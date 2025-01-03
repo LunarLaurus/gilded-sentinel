@@ -83,16 +83,19 @@ const IloFanSettingsCard: React.FC<IloFanSettingsCardProps> = ({ ip, iloUuid }) 
 
     return (
         <div className="fan-settings-card">
-            <h3>{authenticatedClient.iloUuid}</h3>
-            <h4>{authenticatedClient.iloAddress.address}</h4>
-            <p style={{ textAlign: 'center' }}>
-                {authenticatedClient.fans.map((fan, index) => (
-                    <React.Fragment key={index}>
-                        <span>{getFanDataString(fan)}
-                            <br /></span>
-                    </React.Fragment>
-                ))}
-            </p>
+            <h2>{authenticatedClient.serverHostname.toUpperCase()}</h2>
+            <h3>{authenticatedClient.iloAddress.address}</h3>
+            <h4>{authenticatedClient.iloUuid}</h4>
+                <p style={{ textAlign: 'center' }}>
+                    <br />
+                    {authenticatedClient.fans.map((fan, index) => (
+                        <React.Fragment key={index}>
+                            <span>{getFanDataString(fan)}
+                                <br /></span>
+                        </React.Fragment>
+                    ))}
+                    <br />
+                </p>
             <h4>Update Configuration</h4>
             <select
                 id="fan-speed-select"
