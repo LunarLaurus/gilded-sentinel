@@ -1,0 +1,46 @@
+.navbar {
+    display: flex;
+    align-items: center;
+    background-color: #f8f9fa;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.fake-back-button,
+.back-button {
+    margin-right: 20px;
+    padding: 5px 10px;
+    background-color: #5f4b00a4;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.fake-back-button:hover,
+.back-button:hover {
+    background-color: #483903a4;
+}
+
+.tabs {
+    display: flex;
+    gap: 10px;
+}
+
+.active-tab,
+.tab-button {
+    padding: 5px 10px;
+    background-color: #e9ecef;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.active-tab {
+    background-color: #b8b8b5;
+    border-color: #000;
+}
+
+.tab-button:hover {
+    background-color: #b8b8b5;
+}

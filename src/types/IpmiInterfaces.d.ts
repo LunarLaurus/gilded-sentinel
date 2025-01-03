@@ -1,5 +1,6 @@
 export interface IPv4Address {
     octets: number[];
+    address: string;
 }
 export interface IpmiInfo {
     parentHostName: string;
