@@ -6,6 +6,11 @@ import IloFanSettingsCard from '../../../components/subcomponent/ipmi/ilo/IloFan
 import '../../../styles/ilo/IloFanManagementPage.css';
 
 const IloFanManagementPage: React.FC = () => {
+
+    React.useEffect(() => {
+        document.title = "ILO Fan Control";
+    });
+
     const tabs = [
         { label: 'Overview', path: '/ipmi/ilo' },
         { label: 'Fan Settings', path: '/ipmi/ilo/fan' },

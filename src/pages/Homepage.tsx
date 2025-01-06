@@ -4,8 +4,12 @@ import '../styles/Homepage.css';
 import { useNavigate } from 'react-router-dom';
 
 const Homepage: React.FC = () => {
-    const navigate = useNavigate();
 
+    React.useEffect(() => {
+        document.title = "Gilded Sentinel";
+    });
+
+    const navigate = useNavigate();
 
     const handleTileClick = (url: string) => {
         navigate(url);

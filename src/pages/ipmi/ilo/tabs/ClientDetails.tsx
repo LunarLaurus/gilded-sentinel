@@ -1,7 +1,6 @@
 import React from 'react';
 import '../../../../styles/ilo/IloGenericStyling.css';
 import { AuthenticatedClient, IloBios } from '../../../../types/IloInterfaces';
-import { getIloVersion } from '../../../../utils/IloUtils';
 import InfoTable from '../../../../components/primary/table/InfoTable';
 import InfoGrid from '../../../../components/primary/table/InfoGrid';
 
@@ -10,6 +9,11 @@ interface Props {
 }
 
 const ClientGrid: React.FC<{ client: AuthenticatedClient; }> = ({ client }) => {
+
+    React.useEffect(() => {
+        document.title = client.serverHostname;
+    });
+
     return (
         <div>
             <InfoTable

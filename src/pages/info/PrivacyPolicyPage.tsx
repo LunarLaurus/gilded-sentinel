@@ -4,6 +4,10 @@ import '../../styles/InformationPage.css';
 
 const PrivacyPolicyPage: React.FC = () => {
 
+    React.useEffect(() => {
+        document.title = "Privacy Policy";
+    });
+
     return (
         <div className="infopage-container">
             <div className="infopage-card" >

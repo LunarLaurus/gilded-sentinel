@@ -8,6 +8,11 @@ import { UnauthenticatedClient } from '../../../types/IloInterfaces';
 import { getIloVersion, getLastOnlineFlag } from '../../../utils/IloUtils';
 
 const IpmiManagementIlo: React.FC = () => {
+
+    React.useEffect(() => {
+        document.title = "ILO Clients";
+    });
+
     const navigate = useNavigate();
     const tabs = [
         { label: 'Overview', path: '/ipmi/ilo' },

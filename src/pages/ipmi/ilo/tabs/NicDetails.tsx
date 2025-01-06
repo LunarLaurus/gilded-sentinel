@@ -8,6 +8,11 @@ interface Props {
 }
 
 const NicDetails: React.FC<Props> = ({ client }) => {
+
+    React.useEffect(() => {
+        document.title = client.serverHostname + " NIC Details";
+    });
+
     const sections = [
         {
             title: 'Information',

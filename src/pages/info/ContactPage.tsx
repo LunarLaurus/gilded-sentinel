@@ -4,6 +4,10 @@ import '../../styles/InformationPage.css';
 
 const ContactPage: React.FC = () => {
 
+    React.useEffect(() => {
+        document.title = "Contact";
+    });
+
     return (
         <div className="infopage-container">
             <div className="infopage-card" >

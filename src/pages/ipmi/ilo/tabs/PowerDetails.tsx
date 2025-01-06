@@ -6,8 +6,13 @@ interface Props {
     client: AuthenticatedClient;
 }
 
-const PowerDetails: React.FC<Props> = ({ client }) => (
-    <div className="generic-ilo-container">
+const PowerDetails: React.FC<Props> = ({ client }) => {
+
+    React.useEffect(() => {
+        document.title = client.serverHostname + " Power Details";
+    });
+
+    return (<div className="generic-ilo-container">
         <h2 className="generic-ilo-title">Power Data</h2>
         <p>
             Total Capacity: {client.powerData.capacity}W<br />
@@ -59,6 +64,7 @@ const PowerDetails: React.FC<Props> = ({ client }) => (
             <p className="generic-ilo-card">No Power Supplies Available</p>
         )}
     </div>
-);
+    );
+};
 
 export default PowerDetails;

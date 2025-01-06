@@ -4,6 +4,11 @@ import Navbar from '../../components/navigation/Navbar';
 import '../../styles/InformationPage.css';
 
 const IpmiPage: React.FC = () => {
+
+    React.useEffect(() => {
+        document.title = "IPMI Clients";
+    });
+
     const navigate = useNavigate();
 
     const tiles = [

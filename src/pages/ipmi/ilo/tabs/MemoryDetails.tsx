@@ -48,8 +48,13 @@ const DimmCard: React.FC<{ memory: IloMemoryDimm; index: number; }> = ({ memory,
     </div>
 );
 
-const MemoryDetails: React.FC<Props> = ({ client }) => (
-    <div className="generic-ilo-container">
+const MemoryDetails: React.FC<Props> = ({ client }) => {
+
+    React.useEffect(() => {
+        document.title = client.serverHostname + " Memory Details";
+    });
+
+    return (<div className="generic-ilo-container">
         <div className="generic-ilo-grid">
             {client && client.memory.dimms.length > 0 ? (
                 client.memory.dimms.map((dimm, index) => (
@@ -63,6 +68,7 @@ const MemoryDetails: React.FC<Props> = ({ client }) => (
             )}
         </div>
     </div>
-);
+    );
+};
 
 export default MemoryDetails;
