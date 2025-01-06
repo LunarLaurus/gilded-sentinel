@@ -52,7 +52,7 @@ const MemoryDetails: React.FC<Props> = ({ client }) => {
 
     React.useEffect(() => {
         document.title = client.serverHostname + " Memory Details";
-    }, []);
+    }, [client.serverHostname]);
 
     return (<div className="generic-ilo-container">
         <div className="generic-ilo-grid">

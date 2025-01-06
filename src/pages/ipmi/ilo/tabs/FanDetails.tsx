@@ -10,11 +10,15 @@ interface Props {
 
 const FanDetails: React.FC<Props> = ({ client: initialClient }) => {
 
-    React.useEffect(() => {
-        document.title = client.serverHostname + " Fan Details";
-    }, []);
-
     const [client] = useState<AuthenticatedClient>(initialClient);
+
+    React.useEffect(() => {
+        document.title = ((client === null || client?.serverHostname === null) 
+            ? initialClient.serverHostname 
+            : client.serverHostname)
+            + " Fan Details";
+    }, [initialClient.serverHostname, client, client.serverHostname]);
+
     const fixedKeyBase = useRef(initialClient.iloUuid).current;
 
     console.log("FanDetails component rendered");

@@ -12,7 +12,7 @@ const ClientGrid: React.FC<{ client: AuthenticatedClient; }> = ({ client }) => {
 
     React.useEffect(() => {
         document.title = client.serverHostname;
-    }, []);
+    }, [client.serverHostname]);
 
     return (
         <div>
