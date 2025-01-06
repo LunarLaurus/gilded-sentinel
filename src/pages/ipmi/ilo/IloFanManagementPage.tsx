@@ -9,7 +9,7 @@ const IloFanManagementPage: React.FC = () => {
 
     React.useEffect(() => {
         document.title = "ILO Fan Control";
-    });
+    }, []);
 
     const tabs = [
         { label: 'Overview', path: '/ipmi/ilo' },

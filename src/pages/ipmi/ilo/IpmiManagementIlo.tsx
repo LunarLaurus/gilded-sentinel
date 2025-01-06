@@ -1,49 +1,66 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import callEndpointNoArguments from '../../../hooks/useEndpointNoArguments';
+import { FetchEndpoint } from '../../../hooks/useEndpointNoArguments';
 import '../../../styles/ilo/IpmiManagementIlo.css';
 import Navbar from '../../../components/navigation/Navbar';
 import InfoGrid from '../../../components/primary/table/InfoGrid';
 import { UnauthenticatedClient } from '../../../types/IloInterfaces';
 import { getIloVersion, getLastOnlineFlag } from '../../../utils/IloUtils';
+import { useQuery } from '@tanstack/react-query';
 
 const IpmiManagementIlo: React.FC = () => {
+    const navigate = useNavigate();
 
     React.useEffect(() => {
         document.title = "ILO Clients";
-    });
+    }, []); // Add dependency array to avoid re-executing
 
-    const navigate = useNavigate();
     const tabs = [
         { label: 'Overview', path: '/ipmi/ilo' },
         { label: 'Fan Settings', path: '/ipmi/ilo/fan' },
     ];
 
-    const { data: unauthenticatedClients, loading: loadingUnauthenticated } = callEndpointNoArguments<UnauthenticatedClient[]>('ilo/clients/unauthenticated');
-    const [clients, setClients] = useState<UnauthenticatedClient[]>([]);
-
-    useEffect(() => {
-        if (unauthenticatedClients) {
-
-            const processedClients = unauthenticatedClients.map((client) => {
-                return {
-                    ...client,
-                    iloSeries: getIloVersion(client.iloText),
-                    lastOnlineFlag: getLastOnlineFlag(client.lastUpdateTime),
-                };
-            });
-
-            setClients(processedClients);
-        }
-    }, [unauthenticatedClients]);
-
-    if (loadingUnauthenticated) {
-        return <div>Loading clients...</div>;
-    }
-
     const handleClientClick = (clientId: string) => {
         navigate(`/ipmi/ilo/client/${clientId}/detail`);
     };
+
+    const { data: clientData, isLoading, isError } = useQuery({
+        queryKey: ["unauthIloClients"],
+        queryFn: () => FetchEndpoint<UnauthenticatedClient[]>('ilo/clients/unauthenticated'),
+    });
+
+    const [clients, setClients] = useState<UnauthenticatedClient[]>([]);
+
+    // Process `clientData` whenever it changes
+    useEffect(() => {
+        if (clientData) {
+            const processedClients = clientData.map((client) => ({
+                ...client,
+                iloSeries: getIloVersion(client.iloText),
+                lastOnlineFlag: getLastOnlineFlag(client.lastUpdateTime),
+            }));
+            setClients(processedClients);
+        }
+    }, [clientData]);
+
+    if (isLoading) {
+        return <div>Loading clients...</div>;
+    }
+
+    if (isError) {
+        return <div>Error loading clients.</div>;
+    }
+
+    if (!clientData || clientData.length === 0) {
+        return (
+            <div>
+                No clients found.
+                Valid Response: {clientData ? 'true' : 'false'},
+                Valid Data: {clientData !== null},
+                Size: {clientData?.length}
+            </div>
+        );
+    }
 
     const sections = [
         {

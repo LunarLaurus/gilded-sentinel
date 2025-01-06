@@ -10,7 +10,7 @@ const PowerDetails: React.FC<Props> = ({ client }) => {
 
     React.useEffect(() => {
         document.title = client.serverHostname + " Power Details";
-    });
+    }, []);
 
     return (<div className="generic-ilo-container">
         <h2 className="generic-ilo-title">Power Data</h2>

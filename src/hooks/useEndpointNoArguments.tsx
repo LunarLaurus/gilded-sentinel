@@ -4,10 +4,10 @@ import axios from 'axios';
 
 type ApiResponse<T> = T; // Define a generic type for the API response
 
-const useEndpointNoArguments = <T,>(path: string | undefined) => {
+const useEndpointNoArguments = <T,>(path: string) => {
     const [data, setData] = useState<T | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null);
+    const [error, setError] = useState<string>('Ok');
 
     useEffect(() => {
         console.info("Fetching data from " + API_URL + "/" + path);

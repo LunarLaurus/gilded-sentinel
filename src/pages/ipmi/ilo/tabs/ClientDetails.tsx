@@ -12,7 +12,7 @@ const ClientGrid: React.FC<{ client: AuthenticatedClient; }> = ({ client }) => {
 
     React.useEffect(() => {
         document.title = client.serverHostname;
-    });
+    }, []);
 
     return (
         <div>
@@ -21,12 +21,16 @@ const ClientGrid: React.FC<{ client: AuthenticatedClient; }> = ({ client }) => {
                 fieldsToDisplay={['iloUuid', 'iloText', 'iloVersion', 'healthStatus', 'indicatorLed']}
                 title={client.serverHostname}
                 defaultVisible={true}
+                showArrow={false}
+                clickable={false}
             />
             <InfoTable
                 data={client.oemInformation.hostOS}
                 fieldsToDisplay={['osName', 'osSysDescription', 'osVersion', 'osType']}
                 title={"Host Information"}
                 defaultVisible={true}
+                showArrow={false}
+                clickable={false}
             />
             <InfoTable
                 data={client.oemInformation}

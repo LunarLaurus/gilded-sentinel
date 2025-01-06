@@ -7,7 +7,7 @@ const IpmiPage: React.FC = () => {
 
     React.useEffect(() => {
         document.title = "IPMI Clients";
-    });
+    }, []);
 
     const navigate = useNavigate();
 

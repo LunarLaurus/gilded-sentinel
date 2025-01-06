@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams, Routes, Route } from 'react-router-dom';
-import callEndpointNoArguments from '../../../hooks/useEndpointNoArguments';
+import { FetchEndpoint } from '../../../hooks/useEndpointNoArguments';
 import { AuthenticatedClient } from '../../../types/IloInterfaces';
 import Navbar from '../../../components/navigation/Navbar';
 import ClientDetails from './tabs/ClientDetails';
@@ -8,9 +8,15 @@ import FanDetails from './tabs/FanDetails';
 import MemoryDetails from './tabs/MemoryDetails';
 import NicDetails from './tabs/NicDetails';
 import PowerDetails from './tabs/PowerDetails';
+import { useQuery } from '@tanstack/react-query';
 
 const IloClientPage: React.FC = () => {
     const { id } = useParams<{ id: string }>();
+    
+    const { data: authenticatedClient, isLoading, isError } = useQuery({
+        queryKey: [`authIloClient-${id}`],
+        queryFn: () => FetchEndpoint<AuthenticatedClient>(`ilo/${id}/authenticated`),
+    });
 
     // Tab and route configuration
     const routes = [
@@ -21,10 +27,17 @@ const IloClientPage: React.FC = () => {
         { label: 'Power', path: 'power', component: PowerDetails },
     ];
 
-    const { data: authenticatedClient, loading: loadingAuthenticated } = callEndpointNoArguments<AuthenticatedClient>(`ilo/${id}/authenticated`);
-
-    if (loadingAuthenticated || !authenticatedClient) {
-        return <div>Loading client...</div>;
+    if (isLoading) {
+        return <div>Loading clients...</div>;
+    }
+    if (!authenticatedClient || authenticatedClient === null) {
+        return <div>
+            Valid Response: {authenticatedClient ? 'true' : 'false'}, 
+            Valid Data: {authenticatedClient !== null}
+            </div>;
+    }
+    if (isError) {
+        return <div>Error loading client.</div>;
     }
 
     return (

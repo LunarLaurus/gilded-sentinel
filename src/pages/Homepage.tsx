@@ -7,7 +7,7 @@ const Homepage: React.FC = () => {
 
     React.useEffect(() => {
         document.title = "Gilded Sentinel";
-    });
+    }, []);
 
     const navigate = useNavigate();
 

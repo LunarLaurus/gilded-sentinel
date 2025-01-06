@@ -5,6 +5,11 @@ import { useNavigate } from 'react-router-dom';
 import { ClientsMap } from '../../types/ClientInterfaces'; // Import the correct types
 
 const ClientData: React.FC = () => {
+
+    React.useEffect(() => {
+        document.title = "Host Systems";
+    }, []);
+    
     const navigate = useNavigate();
 
     // Use the custom hook to fetch data from the clients' endpoint

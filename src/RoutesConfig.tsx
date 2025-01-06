@@ -1,4 +1,3 @@
-import React from 'react';
 import { Route } from 'react-router-dom';
 import Homepage from './pages/Homepage';
 import ClientData from './pages/client/ClientData';
@@ -12,7 +11,7 @@ import IloFanManagementPage from './pages/ipmi/ilo/IloFanManagementPage';
 import IloClientPage from './pages/ipmi/ilo/IloClientPage';
 import IpmiManagementDrac from './pages/ipmi/drac/IpmiManagementDrac';
 
-export const RoutesConfig = (
+export const RoutesConfig = () => (
     <>
         {/* General Routes */}
         <Route path="/" element={<Homepage />} />
@@ -32,3 +31,4 @@ export const RoutesConfig = (
         <Route path="/ipmi/drac" element={<IpmiManagementDrac />} />
     </>
 );
+
