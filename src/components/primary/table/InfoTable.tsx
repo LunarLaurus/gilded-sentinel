@@ -9,7 +9,7 @@ interface FieldDecorator {
 interface InfoTableProps {
     data: Record<string, any>;
     fieldsToDisplay: string[];
-    title: string;
+    title?: string | ((client: any) => string);
     clickable?: boolean;
     defaultVisible?: boolean;
     showArrow?: boolean;
@@ -34,6 +34,9 @@ const InfoTable: React.FC<InfoTableProps> = React.memo(({
     const [showInfo, setShowInfo] = useState(clickable ? defaultVisible : true);
 
     const combinedData = useMemo(() => ({ ...data, ...customFieldData }), [data, customFieldData]);
+    const getRealTitle = (title: string | ((data: any) => string), data: any): string =>
+        typeof title === 'function' ? title(data) : title;
+
 
     const defaultTypeHandler = (value: any): React.ReactNode => {
         if (typeof value === 'boolean') return value ? 'Yes' : 'No';
@@ -55,12 +58,14 @@ const InfoTable: React.FC<InfoTableProps> = React.memo(({
 
     return (
         <div className="info-table-card">
-            <h3
-                onClick={() => clickable && setShowInfo(!showInfo)}
-                style={{ cursor: clickable ? 'pointer' : 'default' }}
-            >
-                {title} {clickable && showArrow && (showInfo ? '▼' : '▶')}
-            </h3>
+            {title && (
+                <h3
+                    onClick={() => clickable && setShowInfo(!showInfo)}
+                    style={{ cursor: clickable ? 'pointer' : 'default' }}
+                >
+                    {getRealTitle(title, data)} {clickable && showArrow && (showInfo ? '▼' : '▶')}
+                </h3>
+            )}
             {showInfo && (
                 <table className="info-table">
                     <tbody>

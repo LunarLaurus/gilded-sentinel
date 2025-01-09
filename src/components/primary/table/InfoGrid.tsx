@@ -8,7 +8,7 @@ interface FieldDecorator {
 }
 
 interface SectionConfig {
-    title: string;
+    title?: string | ((client: any) => string);
     clickable?: boolean; // Toggle visibility of grid
     defaultVisible?: boolean;
     customFieldData?: Record<string, any>;
@@ -20,7 +20,7 @@ interface SectionConfig {
 
 interface InfoGridProps {
     data: Record<string, any>[]; // Array of objects
-    title: string; // Grid title
+    title: string | ((client: any) => string); // Grid title
     clickable?: boolean; // Toggle visibility of grid
     defaultVisible?: boolean;
     onClick?: (item: Record<string, any>) => void; // Custom onClick for individual items
@@ -50,14 +50,19 @@ const InfoGrid: React.FC<InfoGridProps> = ({
         );
     }, [data, sections]);
 
+    const getRealTitle = (title: string | ((data: any) => string), data: any): string =>
+        typeof title === 'function' ? title(data) : title;
+
     return (
         <div className="info-grid-container">
-            <h2
-                onClick={() => clickable && setShowAll(!showAll)}
-                style={{ cursor: clickable ? 'pointer' : 'default' }}
-            >
-                {title} {clickable ? (showAll ? '▼' : '▶') : ''}
-            </h2>
+            {title && (
+                <h2
+                    onClick={() => clickable && setShowAll(!showAll)}
+                    style={{ cursor: clickable ? 'pointer' : 'default' }}
+                >
+                    {getRealTitle(title, data)} {clickable ? (showAll ? '▼' : '▶') : ''}
+                </h2>
+            )}
             {showAll && (
                 <div className="info-grid">
                     {data.length > 0 ? (

@@ -28,7 +28,7 @@ const IloClientPage: React.FC = () => {
     ];
 
     if (isLoading) {
-        return <div>Loading clients...</div>;
+        return <div>Loading client...</div>;
     }
     if (!authenticatedClient || authenticatedClient === null) {
         return <div>
@@ -58,7 +58,7 @@ const IloClientPage: React.FC = () => {
                     <Route
                         key={index}
                         path={route.path}
-                        element={<route.component client={authenticatedClient} />}
+                        element={<route.component client={authenticatedClient} clientUuid={authenticatedClient.iloUuid} />}
                     />
                 ))}
             </Routes>

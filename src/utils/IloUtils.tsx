@@ -1,9 +1,14 @@
 export function getIloVersion(input: string): number | null {
+    if (typeof input !== 'string') {
+        console.warn('getIloVersion: input is not a string', input);
+        return null; // Return null or another fallback value for invalid input
+    }
+
     const match = input.match(/iLO\s*(\d+)/i);
     if (match && match[1]) {
         return parseInt(match[1], 10);
     }
-    return -1;
+    return null; // Changed from -1 to null for consistency
 }
 
 /**

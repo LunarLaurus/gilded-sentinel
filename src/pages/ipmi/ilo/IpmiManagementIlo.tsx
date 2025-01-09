@@ -42,6 +42,16 @@ const IpmiManagementIlo: React.FC = () => {
             setClients(processedClients);
         }
     }, [clientData]);
+    // Update data every 15 seconds
+    useEffect(() => {
+        // If you want to refetch every 15000ms
+        const intervalId = setInterval(() => {
+            console.info("Refetching data...");
+        }, 15000);
+
+        // Clean up the interval on component unmount
+        return () => clearInterval(intervalId);
+    }, []);
 
     if (isLoading) {
         return <div>Loading clients...</div>;
@@ -64,16 +74,16 @@ const IpmiManagementIlo: React.FC = () => {
 
     const sections = [
         {
-            title: 'Client Information',
+            title: (client: { iloText: string; }) => 'ILO ' + getIloVersion(client.iloText) + ' Client' || 'ILO Client',
             clickable: false,
             fieldsToDisplay: [
                 'iloAddress',
-                'iloSeries',
                 'serialNumber',
                 'serverId',
                 'serverUuid',
                 'productId',
                 'iloVersion',
+                'iloSeries',
                 'iloUuid',
                 'nics',
                 'healthStatus',
@@ -100,7 +110,7 @@ const IpmiManagementIlo: React.FC = () => {
             <Navbar tabs={tabs} />
             <InfoGrid
                 data={clients.sort((a, b) => a.iloAddress.address.localeCompare(b.iloAddress.address))}
-                title=""
+                title={""}
                 clickable={false}
                 onClick={(client) => handleClientClick(client.iloUuid)}
                 sections={sections}

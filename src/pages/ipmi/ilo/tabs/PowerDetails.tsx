@@ -1,6 +1,8 @@
 import React from 'react';
 import '../../../../styles/ilo/IloGenericStyling.css';
 import { AuthenticatedClient } from '../../../../types/IloInterfaces';
+import InfoGrid from '../../../../components/primary/table/InfoGrid';
+import InfoTable from '../../../../components/primary/table/InfoTable';
 
 interface Props {
     client: AuthenticatedClient;
@@ -12,58 +14,82 @@ const PowerDetails: React.FC<Props> = ({ client }) => {
         document.title = client.serverHostname + " Power Details";
     }, [client.serverHostname]);
 
-    return (<div className="generic-ilo-container">
-        <h2 className="generic-ilo-title">Power Data</h2>
-        <p>
-            Total Capacity: {client.powerData.capacity}W<br />
-            Total Consumption: {client.powerData.consumption}W<br />
-            Average Consumption: {client.powerData.averageConsumedWatts}W<br />
-            Interval: {client.powerData.intervalInMinutes} minutes<br />
-            Max Consumed Watts: {client.powerData.maxConsumedWatts}W<br />
-            Min Consumed Watts: {client.powerData.minConsumedWatts}W<br />
-            Last Update Time: {new Date(client.powerData.lastUpdateTime).toLocaleString()}
-        </p>
-        {client.powerData.supplies.length > 0 ? (
-            <div className="generic-ilo-grid">
-                {client.powerData.supplies.map((supply, index) => (
-                    <div
-                        key={supply.bayNumber}
-                        className={`generic-ilo-card ${!supply.pluggedIn ? 'disabled' : ''}`}
-                    >
-                        <h2>Power Supply {index + 1}</h2>
-                        {supply.pluggedIn ? (
-                            <p>
-                                Bay Number: {supply.bayNumber}<br />
-                                Capacity: {supply.powerCapacity}W<br />
-                                Last Power Output: {supply.lastPowerOutputWatts}W<br />
-                                Input Voltage: {supply.lineInputVoltage}V<br />
-                                Input Voltage Type: {supply.lineInputVoltageType}<br />
-                                Hotplug Capable: {supply.hotplugCapable ? 'Yes' : 'No'}<br />
-                                <br />
-                                Model: {supply.model} ({supply.type})<br />
-                                Serial Number: {supply.serialNumber}<br />
-                                Spare Part Number: {supply.sparePartNumber}<br />
-                                Firmware Version: {supply.firmwareVersion}<br />
-                                <br />
-                                Status: {supply.health}<br />
-                                State: {supply.state}<br />
-                                Last Update Time: {new Date(supply.lastUpdateTime).toLocaleString()}
-                            </p>
+    const sections = [
+        {
+            title: (supply: { model: string; type: string; }) => `${supply.model} (${supply.type})`,
+            clickable: false,
+            fieldsToDisplay: [
+                'powerCapacity',
+                'lastPowerOutputWatts',
+                'lineInputVoltage',
+                'lineInputVoltageType',
+                'hotplugCapable',
+                'model',
+                'type',
+                'serialNumber',
+                'sparePartNumber',
+                'firmwareVersion',
+                'health',
+                'state',
+                'lastUpdateTime',
+            ],
+            fieldNameOverrides: {
+                lastUpdateTime: 'Last Seen',
+                health: 'Health',
+                state: 'Status',
+            },
+            fieldDecorators: {
+                powerCapacity: { suffix: 'W' },
+                lastPowerOutputWatts: { suffix: 'W' },
+                lineInputVoltage: { suffix: 'V' },
+            },
+            fieldTypeMap: {
+                lastUpdateTime: (value: string | number | Date) => `${new Date(value).toLocaleString()}`,
+            },
+        },
+    ];
 
-                        ) : (
-                            <p>
-                                This power supply is not plugged in or disabled.
-                            </p>
-                        )}
-                    </div>
+    return (
+        <div className="generic-ilo-container">
 
-                ))}
-
+            <div className='generic-ilo-card'>
+                <InfoTable
+                    title='System Power Information'
+                    data={client.powerData}
+                    fieldsToDisplay={[
+                        'capacity',
+                        'consumption',
+                        'averageConsumedWatts',
+                        'intervalInMinutes',
+                        'maxConsumedWatts',
+                        'minConsumedWatts',
+                        'lastUpdateTime',]}
+                    fieldDecorators={{
+                        capacity: { suffix: 'W' },
+                        consumption: { suffix: 'W' },
+                        averageConsumedWatts: { suffix: 'W' },
+                        intervalInMinutes: { suffix: ' Minutes' },
+                        maxConsumedWatts: { suffix: 'W' },
+                        minConsumedWatts: { suffix: 'W' }
+                    }}
+                    fieldNameOverrides={{
+                        lastUpdateTime: 'Last Seen',
+                    }}
+                    fieldTypeMap={{
+                        lastUpdateTime: (value: string | number | Date) => `${new Date(value).toLocaleString()}`,
+                    }}
+                    clickable={false}
+                />
             </div>
-        ) : (
-            <p className="generic-ilo-card">No Power Supplies Available</p>
-        )}
-    </div>
+                <InfoGrid
+                    data={client.powerData.supplies}
+                    title={'Power Supplies'}
+                    clickable={false}
+                    noDataMessage="No Power Supplies available."
+                    sections={sections}
+                    getItemTitle={(supply) => 'Bay ' + supply.bayNumber}
+                />
+        </div>
     );
 };
 

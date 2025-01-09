@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import '../../../../styles/ilo/IloGenericStyling.css';
 import { AuthenticatedClient, IloBios } from '../../../../types/IloInterfaces';
 import InfoTable from '../../../../components/primary/table/InfoTable';
@@ -14,6 +14,17 @@ const ClientGrid: React.FC<{ client: AuthenticatedClient; }> = ({ client }) => {
         document.title = client.serverHostname;
     }, [client.serverHostname]);
 
+    // Update data every 5 seconds
+    useEffect(() => {
+        // If you want to refetch every 5000ms
+        const intervalId = setInterval(() => {
+            console.info("Refetching data...");
+        }, 5000);
+
+        // Clean up the interval on component unmount
+        return () => clearInterval(intervalId);
+    }, []);
+    
     return (
         <div>
             <InfoTable

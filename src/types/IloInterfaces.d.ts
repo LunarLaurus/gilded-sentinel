@@ -46,7 +46,7 @@ export interface AuthenticatedClient {
     iloFwBuildDate: string;
     iloSerialNumber: string;
     serverHostname: string;
-    nics: IloNicObject[];
+    nics: Nic[];
     healthStatus: number;
     cpuData: IloProcessorSummary;
     memory: IloMemoryObject;
