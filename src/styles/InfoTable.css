@@ -1,0 +1,38 @@
+.info-table-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.info-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0;
+    font-size: 13px;
+    line-height: 1.5;
+    text-align: left;
+}
+
+.info-table th,
+.info-table td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+}
+
+.info-table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+
+.info-table-card h2,
+.info-table h2 {
+    font-size: 1.5rem;
+    color: #333;
+    text-align: center;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.info-table p {
+    color: #555;
+}
