@@ -3,11 +3,13 @@
   "version": "0.1.58",
   "private": true,
   "dependencies": {
+    "@tanstack/react-query": "^5.62.15",
     "@types/axios": "^0.14.0",
     "@types/react": "^18.3.6",
     "@types/react-dom": "^18.3.0",
     "axios": "^1.7.7",
     "chart.js": "^4.4.4",
+    "chartjs-adapter-moment": "^1.0.1",
     "react": "^18.3.1",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.3.1",

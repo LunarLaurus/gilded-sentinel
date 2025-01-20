@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { API_URL } from '../../../App';
 import { Client } from '../../../types/ClientInterfaces';
 import axios from 'axios';
-import NotificationModal from '../../modal/NotificationModal';
-import ToastNotification from '../../toast/ToastNotification';
+import NotificationModal from '../../message/modal/NotificationModal';
+import ToastNotification from '../../message/toast/ToastNotification';
 
 interface FanSpeedControlProps {
     client: Client;

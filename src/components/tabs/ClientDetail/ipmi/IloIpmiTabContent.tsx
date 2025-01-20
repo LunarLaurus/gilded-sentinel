@@ -1,6 +1,6 @@
 import React from 'react';
 import { Client } from '../../../../types/ClientInterfaces';
-import FanSpeedControl from '../../../subcomponent/IloFanSpeedController/FanSpeedControl ';
+import FanSpeedControl from '../../../subcomponent/IloFanSpeedController/FanSpeedControl';
 import {ipv4ToString} from "../../../../utils/NetworkUtils";
 
 interface IloIpmiTabContentProps {

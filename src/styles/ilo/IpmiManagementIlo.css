@@ -1,0 +1,104 @@
+/* General Container */
+.ipmi-management-container,
+.client-page-container {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 20px;
+}
+
+/* Grid for Clients and Fan Settings */
+.ipmi-management-clients-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 5px;
+    margin-top: 5px;
+}
+
+.auth-client-tile {
+    background-color: #f8f9fa;
+    padding: 2px;
+    text-align: left;
+    height: 100%;
+}
+
+/* Client and Fan Settings Cards */
+.ipmi-management-client-card {
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 5px;
+    text-align: left;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    max-width: 350px;
+}
+
+/* Title for Client or Fan Settings Cards */
+.ipmi-management-client-title {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: #333;
+    text-align: center;
+}
+
+/* Navbar Tabs */
+.navbar-tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 5px;
+    gap: 5px;
+}
+
+.navbar-tab {
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    background-color: #f8f9fa;
+    color: #333;
+    text-decoration: none;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.navbar-tab:hover {
+    background-color: #ddd;
+    color: #000;
+}
+
+.navbar-tab.active {
+    background-color: #007bff;
+    color: white;
+    border-color: #0056b3;
+}
+
+/* Client Details Page */
+.client-details {
+    margin-top: 10px;
+    text-align: left;
+}
+
+.client-details h2 {
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.client-details p {
+    color: #555;
+}
+
+/* Visually hidden text for accessibility */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
