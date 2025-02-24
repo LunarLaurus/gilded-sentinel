@@ -1,5 +1,5 @@
 # Setup
-FROM node:22.13-alpine3.20 AS build
+FROM node:22.14-alpine3.20 AS build
 WORKDIR /gilded-sentinel
 COPY package*.json ./
 RUN npm install --frozen-lockfile
