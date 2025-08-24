@@ -1,6 +1,6 @@
 {
   "name": "gilded-sentinel",
-  "version": "0.1.108",
+  "version": "0.1.109",
   "private": true,
   "dependencies": {
     "@types/axios": "^0.14.0",
